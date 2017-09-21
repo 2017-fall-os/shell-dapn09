@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "myTok.h"
 
 
 int launcher(int argc, char *argv[], char *envp[]){
@@ -26,7 +27,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     }
     return 0;
 }
-
+//this method gets a reference to the envp vector and returns a vector made from the PATH entries.
 char ** getPath(char** envp){
-  
+    
 }
