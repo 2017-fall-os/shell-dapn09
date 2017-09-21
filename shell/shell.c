@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-void main(){
+void main(int argc, char **argv, char**envp){
 
   //STEP 1: create a persistent prompt
   int exit = 0;
