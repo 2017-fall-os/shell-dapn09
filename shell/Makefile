@@ -1,7 +1,7 @@
 all: tester
 
-tester: tester.c myTok.c myTok.h
-	gcc -o tester tester.c myTok.c myTok.h
+shell: shell.c myTok.c myTok.h
+	gcc -o shell shell.c myTok.c myTok.h
 
 clean:
-	rm tester
+	rm shell
