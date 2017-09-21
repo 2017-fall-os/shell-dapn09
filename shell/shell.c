@@ -12,7 +12,7 @@ void main(){
 
   while(!exit){
 
-    write(1, "DanielTokenizer$", 16);//write prompt to the screen.
+    write(1, "$ ", 2);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
     int ans = read(0, buffer, 128);
 
@@ -36,7 +36,8 @@ void main(){
 
 	    write(1, "Enter the new delimiter:", 24);
 	    read(0, dlt, 1);
-	    write(1, "Delimiter set\n", 14);
+	    write(1, "\n", 2);
+	    write(1, "Delimiter set\n", 15);
 	    
 	  }
 	    
