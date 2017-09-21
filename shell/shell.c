@@ -23,9 +23,10 @@ void main(){
     
     //to check for the keyword to exit the tokenizer.
     if(ans > 0){
-      if(buffer[0] == 'b')
-	if(buffer[1] == 'y')
-	  if(buffer[2] == 'e'){
+      if(buffer[0] == 'e')
+	if(buffer[1] == 'x')
+	  if(buffer[2] == 'i')
+	    if(buffer[3] == 't'){
 	      write(1, "Bye!!!\n", 7);
 	      exit = 1;
 	    }
@@ -33,12 +34,10 @@ void main(){
       if(buffer[0] == 'd')
 	if(buffer[1] == 'l')
 	  if(buffer[2] == 't'){
-
 	    write(1, "Enter the new delimiter:", 24);
 	    read(0, dlt, 1);
-	    write(1, "\n", 2);
-	    write(1, "Delimiter set\n", 15);
-	    
+	    write(1, "New delimiter set", 17);
+	    continue;
 	  }
 	    
 
