@@ -55,7 +55,7 @@ void main(int argc, char **argv, char**envp){
       if(!exit){
 	char delimiter = dlt[0];
 	char ** parsedToks = myTok(buffer, delimiter);
-	launcher(0, parsedToks);//experimental line
+	launcher(0, parsedToks, 0);//experimental line, MUUST CHANGE BEFORE RUNNING.
 	freeArray(parsedToks);
 	
       }
