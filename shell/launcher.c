@@ -18,7 +18,7 @@ int launcher(int argc, char *argv[], char *envp[]){
       //myargs[1] = strdup("p3.c"); // argument: file to count
       //myargs[2] = NULL; // marks end of array
       execRet = execve(argv[0], argv, envp); // TODO: must change to execve myargs[0]
-      write(1, "Error executing execve()\n", 27);
+      write(1, "Command not found\n\n", 21);
       exit(1);
     } 
     else { // parent goes down this path (main)
