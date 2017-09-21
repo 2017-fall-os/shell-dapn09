@@ -18,7 +18,8 @@ int launcher(int argc, char *argv[], char *envp[]){
       //myargs[1] = strdup("p3.c"); // argument: file to count
       //myargs[2] = NULL; // marks end of array
       execRet = execve(argv[0], argv, envp); // TODO: must change to execve myargs[0]
-      write(1, "this shouldn’t print out\n", 25);
+      write(1, "Error on execve\n", 17);
+      exit(1);
     } else { // parent goes down this path (main)
          int wc = wait(NULL);
          if(execRet == 0){
