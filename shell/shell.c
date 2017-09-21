@@ -9,6 +9,7 @@ void main(){
   //STEP 1: create a persistent prompt
   int exit = 0;
   char dlt[1] = {' '}; 
+  
 
   while(!exit){
 
@@ -37,6 +38,7 @@ void main(){
 	    write(1, "Enter the new delimiter:", 24);
 	    read(0, dlt, 1);
 	    write(1, "New delimiter set\n", 19);
+	    free(buffer);
 	    continue;
 	  }
 	    
