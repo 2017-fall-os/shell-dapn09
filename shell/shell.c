@@ -36,7 +36,7 @@ void main(int argc, char **argv, char**envp){
 	      exit = 1;
 	    }
 
-      if(buffer[0] == 'd')
+      /*if(buffer[0] == 'd')
 	if(buffer[1] == 'l')
 	  if(buffer[2] == 't'){
 	    write(1, "Enter the new delimiter:", 24);
@@ -44,7 +44,7 @@ void main(int argc, char **argv, char**envp){
 	    write(1, "New delimiter set\n", 19);
 	    free(buffer);
 	    continue;
-	  }
+	  }*/
 	    
       if(buffer[0] == 'P')//for testing purposes only, remove for final submission
 	if(buffer[1] == 'A')
