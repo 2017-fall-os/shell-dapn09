@@ -26,3 +26,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     }
     return 0;
 }
+
+char ** getPath(char** envp){
+  
+}
