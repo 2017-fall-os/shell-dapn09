@@ -42,7 +42,15 @@ void main(int argc, char **argv, char**envp){
 	    continue;
 	  }
 	    
-
+      if(buffer[0] == 'P')//for testing purposes only, remove for final submission
+	if(buffer[1] == 'A')
+	  if(buffer[2] == 'T')
+	    if(buffer[3] == 'H'){
+	      print2DArray(envp);
+	      free(buffer);
+	      continue;
+      }
+	
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
 	char delimiter = dlt[0];
