@@ -46,7 +46,7 @@ void main(int argc, char **argv, char**envp){
 	if(buffer[1] == 'A')
 	  if(buffer[2] == 'T')
 	    if(buffer[3] == 'H'){
-	      print2DArray(parsedToks);//print environmental variables
+	      print2DArray(envp);//print environmental variables
 	      free(buffer);
 	      continue;
       }
