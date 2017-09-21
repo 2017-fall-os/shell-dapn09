@@ -24,7 +24,6 @@ void main(int argc, char **argv, char**envp){
     }
 	  
     if((buffer[0] == 0)||(buffer[0] == '\n')){
-	    write(1, "it works\n", 9);//remove
 	   continue; //if there is no input, start again.
     }
     
