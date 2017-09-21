@@ -20,7 +20,7 @@ int launcher(int argc, char *argv[], char *envp[]){
       write(1, "this shouldn’t print out\n", 25);
     } else { // parent goes down this path (main)
     int wc = wait(NULL);
-    //printf("hello, I am parent of %d (wc:%d) (pid:%d)\n", rc, wc, (int) getpid());
+    write(1, "hello, I am parent\n", 19);
     }
     return 0;
 }
