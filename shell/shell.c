@@ -21,6 +21,10 @@ void main(int argc, char **argv, char**envp){
     if(ans < 0){//if there is an error in the reading process.
       write(1, "Ooops!!! There was an error while reading the input.\n", 53);
     }
+	  
+    if(ans == 0){
+	    continue;//if there is no input, start again.
+    }
     
     //to check for the keyword to exit the tokenizer.
     if(ans > 0){
