@@ -17,7 +17,7 @@ int launcher(int argc, char *argv[], char *envp[]){
       myargs[1] = strdup("p3.c"); // argument: file to count
       myargs[2] = NULL; // marks end of array
       execve(argv[0], argv, envp); // TODO: must change to execve myargs[0]
-      printf("this shouldn’t print out");
+      write(1, "this shouldn’t print out\n", 25);
     } else { // parent goes down this path (main)
     int wc = wait(NULL);
     //printf("hello, I am parent of %d (wc:%d) (pid:%d)\n", rc, wc, (int) getpid());
