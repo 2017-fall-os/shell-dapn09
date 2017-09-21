@@ -36,7 +36,7 @@ void main(){
 	  if(buffer[2] == 't'){
 	    write(1, "Enter the new delimiter:", 24);
 	    read(0, dlt, 1);
-	    write(1, "New delimiter set", 17);
+	    write(1, "New delimiter set\n", 19);
 	    continue;
 	  }
 	    
