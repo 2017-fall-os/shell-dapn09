@@ -42,7 +42,7 @@ char *prepName(char* currPath, char* argv0){
      return newName;
 }
 
-int launcher(int argc, char *argv[], char *envp[]){
+int launcher(int argc, char *argv[], char* path[], char *envp[]){
 
   int rc = 0;
   //we first check if the program starts with '/' this will be the case for explicit filenames.
@@ -63,7 +63,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     	return 0;
   }else{//if executable name is used instead.
   	rc = fork();
-  	char **currPath = envp;
+  	char **currPath = path;
 	if (rc < 0) { // fork failed, exit
     		write(1, "fork failed\n", 13);
     		exit(1);
@@ -76,8 +76,7 @@ int launcher(int argc, char *argv[], char *envp[]){
 		     free(newName);//free useless construct.
 		     currPath += 1;
 		}
-      		write(1, "Command not found\n\n", 20);//if found, this line shouldnt print.
-		fprintf(stderr, "The execution exited with a value of: %s\n", strerror(errno));
+		fprintf(stderr, "%s\n", strerror(errno));//print the error
      		exit(1);
     	} 
     	else { // parent 
