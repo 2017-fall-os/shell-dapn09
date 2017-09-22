@@ -27,12 +27,13 @@ void main(int argc, char **argv, char**envp){
     }
     
     //to check for the keyword to exit the tokenizer.
-    if(ans > 0){
-	    
+    if(ans > 0){	    
     char delimiter = dlt[0];
     char ** parsedToks = myTok(buffer, delimiter);
     char ** pathVector = getPath(envp);
-    if(tokenLen(parsedToks[0]) > 3)    
+    int sizeCom = tokenLen(parsedToks[0]);
+    //check for exit key word
+    if(sizeCom > 3)    
       if(parsedToks[0][0] == 'e')
 	if(parsedToks[0][1] == 'x')
 	  if(parsedToks[0][2] == 'i')
@@ -50,15 +51,25 @@ void main(int argc, char **argv, char**envp){
 	    free(buffer);
 	    continue;
 	  }*/
-	    
-      if(buffer[0] == 'P')//for testing purposes only, remove for final submission
-	if(buffer[1] == 'A')
-	  if(buffer[2] == 'T')
-	    if(buffer[3] == 'H'){
+     //check for printing environment vars.    
+     if(argc > 4)    
+      if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
+	if(parsedToks[0][1] == 'n')
+	  if(parsedToks[0][2] == 'v')
+	    if(parsedToks[0][3] == 'p'){
 	      print2DArray(envp);//print environmental variables
 	      free(buffer);
 	      continue;
       }
+	    
+     //check for changing directory
+     if(sizeCom == 2)    
+       if(parsedToks[0][0] == 'c')//for testing purposes only, remove for final submission
+	 if(parsedToks[0][1] == 'd'){
+	      chdir(argv[1]); //change directory
+	      free(buffer);
+	      continue;
+         }
 	
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
