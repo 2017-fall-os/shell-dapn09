@@ -31,7 +31,7 @@ int launcher(int argc, char *argv[], char *envp[]){
 //this method gets a reference to the envp vector and returns a vector made from the PATH entries.
 char ** getPath(char** envp){
     char **pathVec = 0;// this will be the returned array
-    char *currStr = *envp;
+    char *currStr = envp;
     while(currStr != 0){//traverse array of strings.
 	int i = 0;
 	char *c = currStr;
