@@ -46,8 +46,8 @@ char ** getPath(char** envp){
 		if(c[2] == 'T')
 		   if(c[3] == 'H')
 		      if(c[4] == '='){
-			 write(1, "PATH was found!\n", 17);//for debugging purposes only
-			 write(1, c, 40);
+			 //write(1, "PATH was found!\n", 17);//for debugging purposes only
+			 //write(1, c, 40);//for debugging only
 		     	 pathVec = (char**) myTok(&c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
 			 return pathVec;
 		      }
