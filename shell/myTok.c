@@ -13,14 +13,14 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
     return i;
 }
 
-char *prepName(char* currPath, char* argv){//merges the path token and the filename as path + '/' + arg0 + 0
+char *prepName(char* newName, char* currPath, char* argv){//merges the path token and the filename as path + '/' + arg0 + 0
      int curPathLength = 0;
      int argLength = 0;
      int i = 0;//the index to the array
      int j = 0;
      curPathLength = tokenLen(currPath);
      argLength = tokenLen((char*)argv);
-     char newName[curPathLength + 1 + argLength + 1];//
+     newName = (char*)calloc(curPathLength + 1 + argLength + 1);
      while(j<curPathLength){
 	     write(1, "w1\n", 4);//for debugging
      	newName[i] = currPath[j];
@@ -37,7 +37,7 @@ char *prepName(char* currPath, char* argv){//merges the path token and the filen
 	j++;
      }
      newName[i] = 0;
-     return newName;	
+     return newName;
 }
 
 int launcher(int argc, char *argv[], char *envp[]){
@@ -68,7 +68,8 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child
 		while(*currPath != 0){
-		     char *newName = prepName(*currPath , argv[0]);
+		     char *newName;
+		     newName = prepName(newName, *currPath , argv[0]);
 			write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
 		     currPath += 1;
