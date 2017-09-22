@@ -8,7 +8,9 @@
 int tokenLen(char *tok){// tool method for measuring size of tokens
     int i = 0;
     while(*tok != 0){
-	i++;	
+	i++;
+	tok +=1;
+	write(1, "w6\n", 4);//for debugging
     }
     return i;
 }
@@ -41,17 +43,18 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child
 		while(*currPath != 0){
+		  write(1, "w5\n", 4);//for debugging
 		     char *newName;//1
 		     int curPathLength = 0;
      	             int argLength = 0;
                      int i = 0;//the index to the array
                      int j = 0;
-                     curPathLength = tokenLen(currPath);
-                     argLength = tokenLen((char*)argv);
+                     curPathLength = tokenLen(*currPath);
+                     argLength = tokenLen(*argv);
                      newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
                      while(j<curPathLength){
 	                 write(1, "w1\n", 4);//for debugging
-     	                 newName[i] = currPath[j];
+     	                 newName[i] = *currPath[j];
 	                 i++;
 	                 j++;
                      }
@@ -60,7 +63,7 @@ int launcher(int argc, char *argv[], char *envp[]){
                      j = 0;
                      while(j<argLength){
 	                 write(1, "w2\n", 4);//for debugging
-     	                 newName[i] = argv[j];
+     	                 newName[i] = *argv[j];
 	                 i++;
 	                 j++;
                      }
@@ -99,7 +102,8 @@ char ** getPath(char** envp){
 		      if(c[4] == '='){
 			 //write(1, "PATH was found!\n", 17);//for debugging purposes only
 			 //write(1, c, 40);//for debugging only
-		     	 pathVec = (char**) myTok(&c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
+			pathVec = (char**) myTok(&c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
+			 write(1, "w4\n", 4);//for debugging
 			 return pathVec;
 		      }
 	currStr += 1;     
@@ -109,7 +113,7 @@ char ** getPath(char** envp){
 
 //helper method used to print the 2D array
 void print2DArray(char** array){
-
+write(1, "w5\n", 4);//for debugging
   char** tokens = array;
   int i = 0;
   int count = 0;
