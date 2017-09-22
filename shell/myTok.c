@@ -24,7 +24,7 @@ char *prepName(char* currPath, char* argv0){
      int j = 0;
      while(j<curPathLength){
 	   write(1, "w1\n", 4);//for debugging
-     	   newName[i] = *currPath[j];
+     	   newName[i] = currPath[j];
 	   i++;
 	   j++;
      }
@@ -33,7 +33,7 @@ char *prepName(char* currPath, char* argv0){
      j = 0;
      while(j<argLength){
 	   write(1, "w2\n", 4);//for debugging
-     	   newName[i] = *argv0[j];
+     	   newName[i] = argv0[j];
 	   i++;
 	   j++;
      }
