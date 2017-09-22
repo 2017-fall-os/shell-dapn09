@@ -37,6 +37,7 @@ char *prepName(char* currPath, char* argv){//merges the path token and the filen
 	j++;
      }
      newName[i] = 0;
+     return newName;	
 }
 
 int launcher(int argc, char *argv[], char *envp[]){
