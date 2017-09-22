@@ -10,7 +10,7 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
     while(*tok != 0){
 	i++;
 	tok +=1;
-	write(1, "w6\n", 4);//for debugging
+	//write(1, "w6\n", 4);//for debugging
     }
     return i;
 }
@@ -23,7 +23,7 @@ char *prepName(char* currPath, char* argv0){
      int i = 0;//the index to newName
      int j = 0;
      while(j<curPathLength){
-	   write(1, "w1\n", 4);//for debugging
+	   //write(1, "w1\n", 4);//for debugging
      	   newName[i] = currPath[j];
 	   i++;
 	   j++;
@@ -32,7 +32,7 @@ char *prepName(char* currPath, char* argv0){
      i++;
      j = 0;
      while(j<argLength){
-	   write(1, "w2\n", 4);//for debugging
+	   //write(1, "w2\n", 4);//for debugging
      	   newName[i] = argv0[j];
 	   i++;
 	   j++;
@@ -70,8 +70,9 @@ int launcher(int argc, char *argv[], char *envp[]){
     	if (rc == 0) { // child
 		while(*currPath != 0){
 		     char *newName = prepName(*currPath, argv[0]);//we will construct the full path name to try it
-		     write(1, "w3\n", 4);//for debugging
+		     //write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
+		     free(newName);//free useless construct.
 		     currPath += 1;
 		}
       		write(1, "Command not found\n\n", 21);//if found, this line shouldnt print.
@@ -101,10 +102,8 @@ char ** getPath(char** envp){
 		if(c[2] == 'T')
 		   if(c[3] == 'H')
 		      if(c[4] == '='){
-			 //write(1, "PATH was found!\n", 17);//for debugging purposes only
-			 //write(1, c, 40);//for debugging only
+			//write(1, "PATH was found!\n", 17);//for debugging
 			pathVec = (char**) myTok(&c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
-			 write(1, "w4\n", 4);//for debugging
 			 return pathVec;
 		      }
 	currStr += 1;     
