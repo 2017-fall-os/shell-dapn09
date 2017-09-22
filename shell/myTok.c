@@ -19,7 +19,7 @@ char *prepName(char* currPath, char* argv){//merges the path token and the filen
      int i = 0;//the index to the array
      int j = 0;
      curPathLength = tokenLen(currPath);
-     argLength = tokenLen(argv[0]);
+     argLength = tokenLen((char*)argv[0]);
      char newName[curPathLength + 1 + argLength + 1];//
      while(j<curPathLength){
      	newName[i] = currPath[j];
