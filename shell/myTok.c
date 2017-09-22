@@ -37,6 +37,7 @@ char ** getPath(char** envp){
 	char *c = currStr;
 	while(*c != 0){// to count elements in string, no need to look into shorter strings than 5.
 	    i++;
+	    c++;
 	}
     	if(i > 5)
 	   c = currStr;
