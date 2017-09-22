@@ -13,16 +13,28 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
     return i;
 }
 
-char *prepName(char* curPath, char* arg0){
+char *prepName(char* currPath, char* argv){//merges the path token and the filename as path + '/' + arg0 + 0
      int curPathLength = 0;
      int argLength = 0;
+     int i = 0;//the index to the array
+     int j = 0;
      curPathLength = tokenLen(*currPath);
      argLength = tokenLen(argv[0]);
-     char *newName = (char*) calloc(curPathLength + argLength + 2);
-     for(int i = 0; i<(curPathLength + 2 + argLength); i++){
-         if(i<curPathLength) newName[i] = currPath[i];
-	 if()
-     }     
+     char newName[curPathLength + 1 + argLength + 1];//
+     while(j<curPathLength){
+     	newName[i] = currPath[j];
+	i++;
+	j++;
+     }
+     newName[i] = '/';
+     i++;
+     j = 0;
+     while(j<argLength){
+     	newName[i] = argv[j];
+	i++;
+	j++;
+     }
+     newName[i] = 0;
 }
 
 int launcher(int argc, char *argv[], char *envp[]){
