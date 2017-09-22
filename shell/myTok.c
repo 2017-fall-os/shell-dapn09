@@ -13,33 +13,56 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
     return i;
 }
 
+char *prepName(char* curPath, char* arg0){
+     int curPathLength = 0;
+     int argLength = 0;
+     curPathLength = tokenLen(*currPath);
+     argLength = tokenLen(argv[0]);
+     char *newName = (char*) calloc(curPathLength + argLength + 2);
+     for(int i = 0; i<(curPathLength + 2 + argLength); i++){
+         if(i<curPathLength) newName[i] = currPath[i];
+	 if()
+     }     
+}
+
 int launcher(int argc, char *argv[], char *envp[]){
 
-  int execRet = 0;
-  //we first check if the program starts with '/'
+  int rc = 0;
+  //we first check if the program starts with '/' this will be the case for explicit filenames.
   if(*argv[0] == '/'){
-	int rc = fork();
+	rc = fork();
   	if (rc < 0) { // fork failed, exit
     		write(1, "fork failed\n", 13);
     		exit(1);
     	} else 
-    	if (rc == 0) { // child (new process)
-     		//char *myargs[3];
-      		//myargs[0] = strdup("wc"); // program: "wc" (word count)
-      		//myargs[1] = strdup("p3.c"); // argument: file to count
-      		//myargs[2] = NULL; // marks end of array
-     		execRet = execve(argv[0], argv, envp); // TODO: must change to execve myargs[0]
+    	if (rc == 0) { // child 
+     		execve(argv[0], argv, envp); 
       		write(1, "Command not found\n\n", 21);
      		exit(1);
     	} 
-    	else { // parent goes down this path (main)
+    	else { // parent 
       		int wc = wait(NULL);
     	}
     	return 0;
-  }else{
-  	int rc = fork();
+  }else{//if executable name is used instead.
+  	rc = fork();
   	char **currPath = envp;
-	  
+	if (rc < 0) { // fork failed, exit
+    		write(1, "fork failed\n", 13);
+    		exit(1);
+    	} else 
+    	if (rc == 0) { // child
+		while(*currPath != 0){
+		     char *newName = prepName(*currPath , argv[0]);
+     		     execve(newName, argv, envp);
+		     currPath += 1;
+		}
+      		write(1, "Command not found\n\n", 21);
+     		exit(1);
+    	} 
+    	else { // parent 
+      		int wc = wait(NULL);
+    	}  
   }
 }
 
