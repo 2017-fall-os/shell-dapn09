@@ -19,7 +19,7 @@ char *prepName(char* currPath, char* argv0){
 
      int curPathLength = tokenLen(currPath);
      int argLength = tokenLen(argv0);
-     newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
+     char *newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
      int i = 0;//the index to newName
      int j = 0;
      while(j<curPathLength){
