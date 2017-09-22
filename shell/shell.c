@@ -28,10 +28,15 @@ void main(int argc, char **argv, char**envp){
     
     //to check for the keyword to exit the tokenizer.
     if(ans > 0){
-      if(buffer[0] == 'e')
-	if(buffer[1] == 'x')
-	  if(buffer[2] == 'i')
-	    if(buffer[3] == 't'){
+	    
+    char delimiter = dlt[0];
+    char ** parsedToks = myTok(buffer, delimiter);
+    char ** pathVector = getPath(envp);
+    if(tokenLen(parsedToks[0]) > 3)    
+      if(parsedToks[0][0] == 'e')
+	if(parsedToks[0][1] == 'x')
+	  if(parsedToks[0][2] == 'i')
+	    if(parsedToks[0][3] == 't'){
 	      write(1, "Bye!!!\n", 7);
 	      exit = 1;
 	    }
@@ -57,9 +62,6 @@ void main(int argc, char **argv, char**envp){
 	
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
-	char delimiter = dlt[0];
-	char ** parsedToks = myTok(buffer, delimiter);
-	char ** pathVector = getPath(envp);
 	      //print2DArray(pathVector);//for debugging purposes only.
 	launcher(0, parsedToks, pathVector, envp);//experimental line, MUUST CHANGE BEFORE RUNNING.
 	freeArray(parsedToks);
