@@ -34,7 +34,7 @@ char ** getPath(char** envp){
     char *currStr = *envp;
     while(currStr != 0){//traverse array of strings.
 	int i = 0;
-	char c = currStr;
+	char *c = currStr;
 	while(*c != 0){// to count elements in string, no need to look into shorter strings than 5.
 	    i++;
 	}
