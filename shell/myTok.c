@@ -67,6 +67,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child
 		while(*currPath != 0){
+			write(1, "w3\n", 4);//for debugging
 		     char *newName = prepName(*currPath , argv[0]);
      		     execve(newName, argv, envp);
 		     currPath += 1;
