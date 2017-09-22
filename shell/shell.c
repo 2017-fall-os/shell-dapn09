@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "myTok.h"
 #include <unistd.h>
+#include <string.h>
+#include <errno.h>
 #include <stdlib.h>
 
 
