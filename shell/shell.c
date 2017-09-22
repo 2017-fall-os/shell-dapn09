@@ -72,8 +72,8 @@ void main(int argc, char **argv, char**envp){
 	      if(res != 0){
 	      	fprintf(stderr, "%s\n", strerror(errno));
 	      }
-		char cwd[1024];
-		fprintf(stderr, "The current dir is: %s\n", getcwd(cwd, sizeof(cwd)));
+		//char cwd[1024];
+		//fprintf(stderr, "The current dir is: %s\n", getcwd(cwd, sizeof(cwd)));
 	      free(buffer);
 	      continue;
          }
