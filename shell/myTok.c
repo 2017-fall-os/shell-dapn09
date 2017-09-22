@@ -27,9 +27,31 @@ int launcher(int argc, char *argv[], char *envp[]){
     }
     return 0;
 }
+
 //this method gets a reference to the envp vector and returns a vector made from the PATH entries.
 char ** getPath(char** envp){
-    
+    char **pathVec = 0;// this will be the returned array
+    char *currStr = *envp;
+    while(currStr != 0){//traverse array of strings.
+	int i = 0;
+	char c = currStr;
+	while(*c != 0){// to count elements in string, no need to look into shorter strings than 5.
+	    i++;
+	}
+    	if(i > 5)
+	   c = currStr;
+	   if(c[0] == 'P')
+	     if(c[1] == 'A')
+		if(c[2] == 'T')
+		   if(c[3] == 'H')
+		      if(c[4] == '='){
+			 write(1, "PATH was found!\n", 17);//for debugging purposes only
+		     	 pathVec = (char**) myTok(c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
+			 return pathVec;
+		      }
+	currStr += 1;     
+    }
+    return pathVec;
 }
 
 //helper method used to print the 2D array
