@@ -61,7 +61,7 @@ void main(int argc, char **argv, char**envp){
 	char ** parsedToks = myTok(buffer, delimiter);
 	char ** pathVector = getPath(envp);
 	      //print2DArray(pathVector);//for debugging purposes only.
-	launcher(0, parsedToks, pathVector);//experimental line, MUUST CHANGE BEFORE RUNNING.
+	launcher(0, parsedToks, pathVector, envp);//experimental line, MUUST CHANGE BEFORE RUNNING.
 	freeArray(parsedToks);
 	
       }
