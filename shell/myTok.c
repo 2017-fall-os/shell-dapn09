@@ -15,6 +15,10 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
     return i;
 }
 
+char *prepName(char* currPath, char* argv0){
+
+}
+
 int launcher(int argc, char *argv[], char *envp[]){
 
   int rc = 0;
@@ -43,32 +47,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child
 		while(*currPath != 0){
-		  write(1, "w5\n", 4);//for debugging
-		     char *newName;//1
-		     int curPathLength = 0;
-     	             int argLength = 0;
-                     int i = 0;//the index to the array
-                     int j = 0;
-                     curPathLength = tokenLen(*currPath);
-                     argLength = tokenLen(*argv);
-                     newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
-                     while(j<curPathLength){
-	                 write(1, "w1\n", 4);//for debugging
-     	                 newName[i] = *currPath[j];
-	                 i++;
-	                 j++;
-                     }
-                     newName[i] = '/';
-                     i++;
-                     j = 0;
-                     while(j<argLength){
-	                 write(1, "w2\n", 4);//for debugging
-     	                 newName[i] = *argv[j];
-	                 i++;
-	                 j++;
-                     }
-                     newName[i] = 0;
-		     //1
+		     char *newName;
 		     write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
 		     currPath += 1;
