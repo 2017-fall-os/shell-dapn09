@@ -31,16 +31,16 @@ int launcher(int argc, char *argv[], char *envp[]){
 //this method gets a reference to the envp vector and returns a vector made from the PATH entries.
 char ** getPath(char** envp){
     char **pathVec = 0;// this will be the returned array
-    char *currStr = envp;
-    while(currStr != 0){//traverse array of strings.
+    char **currStr = envp;
+    while(*currStr != 0){//traverse array of strings.
 	int i = 0;
-	char *c = currStr;
+	char *c = *currStr;
 	while(*c != 0){// to count elements in string, no need to look into shorter strings than 5.
 	    i++;
 	    c++;
 	}
     	if(i > 5)
-	   c = currStr;
+	   c = *currStr;
 	   if(c[0] == 'P')
 	     if(c[1] == 'A')
 		if(c[2] == 'T')
