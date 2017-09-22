@@ -73,6 +73,7 @@ int launcher(int argc, char *argv[], char *envp[]){
 		     //write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
 		     free(newName);//free useless construct.
+		     fprintf(stderr, "%s\n", explain_execve(newName, argv, envp));
 		     currPath += 1;
 		}
       		write(1, "Command not found\n\n", 20);//if found, this line shouldnt print.
