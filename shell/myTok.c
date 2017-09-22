@@ -68,8 +68,8 @@ int launcher(int argc, char *argv[], char *envp[]){
     	if (rc == 0) { // child
 		while(*currPath != 0){
 		     char *newName = prepName(*currPath , argv[0]);
-     		     execve(newName, argv, envp);
 			write(1, "w3\n", 4);//for debugging
+     		     execve(newName, argv, envp);
 		     currPath += 1;
 		}
       		write(1, "Command not found\n\n", 21);
