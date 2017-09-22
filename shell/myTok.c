@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include "myTok.h"
-#include <libexplain/execve.h>
+#include <errno.h>
 
 int tokenLen(char *tok){// tool method for measuring size of tokens
     int i = 0;
@@ -74,10 +74,10 @@ int launcher(int argc, char *argv[], char *envp[]){
 		     //write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
 		     free(newName);//free useless construct.
-		     fprintf(stderr, "%s\n", explain_execve(newName, argv, envp));
 		     currPath += 1;
 		}
       		write(1, "Command not found\n\n", 20);//if found, this line shouldnt print.
+		fprintf(stderr, "The execution exited with a value of: %s\n", strerror(errno));
      		exit(1);
     	} 
     	else { // parent 
