@@ -7,6 +7,5 @@ char ** myTok(char *str, char delim);
 int launcher(int argc, char *argv[], char *envp[]);
 char ** getPath(char** envp);
 int tokenLen(char *tok);
-char *prepName(char* curPath, char* arg0);
 
 #endif
