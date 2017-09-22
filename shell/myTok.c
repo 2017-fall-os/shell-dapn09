@@ -22,6 +22,7 @@ char *prepName(char* currPath, char* argv){//merges the path token and the filen
      argLength = tokenLen((char*)argv);
      char newName[curPathLength + 1 + argLength + 1];//
      while(j<curPathLength){
+	     write(1, "w1\n", 4);//for debugging
      	newName[i] = currPath[j];
 	i++;
 	j++;
@@ -30,6 +31,7 @@ char *prepName(char* currPath, char* argv){//merges the path token and the filen
      i++;
      j = 0;
      while(j<argLength){
+	     write(1, "w2\n", 4);//for debugging
      	newName[i] = argv[j];
 	i++;
 	j++;
