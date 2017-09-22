@@ -70,7 +70,7 @@ void main(int argc, char **argv, char**envp){
 	 if(parsedToks[0][1] == 'd'){
 	      int res = chdir(argv[1]); //change directory
 	      if(res != 0){
-	      	fptintf(1, "%s\n", strerror(errno));
+	      	fprintf(1, "%s\n", strerror(errno));
 	      }
 	      free(buffer);
 	      continue;
