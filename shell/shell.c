@@ -52,7 +52,7 @@ void main(int argc, char **argv, char**envp){
 	    continue;
 	  }*/
      //check for printing environment vars.    
-     if(argc > 4)    
+     if(sizeCom > 4)    
       if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
 	if(parsedToks[0][1] == 'n')
 	  if(parsedToks[0][2] == 'v')
