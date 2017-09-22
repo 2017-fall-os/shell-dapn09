@@ -53,7 +53,7 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child 
      		execve(argv[0], argv, envp); 
-      		write(1, "Command not found\n\n", 21);
+      		write(1, "Command not found\n\n", 20);
      		exit(1);
     	} 
     	else { // parent 
@@ -75,7 +75,7 @@ int launcher(int argc, char *argv[], char *envp[]){
 		     free(newName);//free useless construct.
 		     currPath += 1;
 		}
-      		write(1, "Command not found\n\n", 21);//if found, this line shouldnt print.
+      		write(1, "Command not found\n\n", 20);//if found, this line shouldnt print.
      		exit(1);
     	} 
     	else { // parent 
