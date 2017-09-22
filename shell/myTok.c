@@ -5,6 +5,13 @@
 #include <sys/wait.h>
 #include "myTok.h"
 
+int tokenLen(char *tok){// tool method for measuring size of tokens
+    int i = 0;
+    while(*tok != 0){
+	i++;	
+    }
+    return i;
+}
 
 int launcher(int argc, char *argv[], char *envp[]){
 
