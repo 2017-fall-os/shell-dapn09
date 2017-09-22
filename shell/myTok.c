@@ -17,6 +17,28 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
 
 char *prepName(char* currPath, char* argv0){
 
+     int curPathLength = tokenLen(currPath);
+     int argLength = tokenLen(argv0);
+     newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
+     int i = 0;//the index to newName
+     int j = 0;
+     while(j<curPathLength){
+	   write(1, "w1\n", 4);//for debugging
+     	   newName[i] = *currPath[j];
+	   i++;
+	   j++;
+     }
+     newName[i] = '/';
+     i++;
+     j = 0;
+     while(j<argLength){
+	   write(1, "w2\n", 4);//for debugging
+     	   newName[i] = *argv0[j];
+	   i++;
+	   j++;
+     }
+     newName[i] = 0;
+     return newName;
 }
 
 int launcher(int argc, char *argv[], char *envp[]){
@@ -47,12 +69,12 @@ int launcher(int argc, char *argv[], char *envp[]){
     	} else 
     	if (rc == 0) { // child
 		while(*currPath != 0){
-		     char *newName;
+		     char *newName = prepName(*currPath, argv[0]);//we will construct the full path name to try it
 		     write(1, "w3\n", 4);//for debugging
      		     execve(newName, argv, envp);
 		     currPath += 1;
 		}
-      		write(1, "Command not found\n\n", 21);
+      		write(1, "Command not found\n\n", 21);//if found, this line shouldnt print.
      		exit(1);
     	} 
     	else { // parent 
