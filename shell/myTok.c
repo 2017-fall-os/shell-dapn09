@@ -15,10 +15,10 @@ int tokenLen(char *tok){// tool method for measuring size of tokens
 
 int launcher(int argc, char *argv[], char *envp[]){
 
-  int rc = fork();
   int execRet = 0;
   //we first check if the program starts with '/'
   if(*argv[0] == '/'){
+	int rc = fork();
   	if (rc < 0) { // fork failed, exit
     		write(1, "fork failed\n", 13);
     		exit(1);
@@ -37,9 +37,9 @@ int launcher(int argc, char *argv[], char *envp[]){
     	}
     	return 0;
   }else{
-  
-  	
-  
+  	int rc = fork();
+  	char **currPath = envp;
+	  
   }
 }
 
