@@ -48,7 +48,7 @@ int launcher(int argc, char *argv[], char *envp[]){
                      int j = 0;
                      curPathLength = tokenLen(currPath);
                      argLength = tokenLen((char*)argv);
-                     newName = (char*)calloc(curPathLength + 1 + argLength + 1);
+                     newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
                      while(j<curPathLength){
 	                 write(1, "w1\n", 4);//for debugging
      	                 newName[i] = currPath[j];
