@@ -68,7 +68,7 @@ void main(int argc, char **argv, char**envp){
      if(sizeCom == 2)    
        if(parsedToks[0][0] == 'c')//for testing purposes only, remove for final submission
 	 if(parsedToks[0][1] == 'd'){
-	      int res = chdir(argv[1]); //change directory
+	      int res = chdir(".."); //change directory argv[1]
 	      if(res != 0){
 	      	fprintf(stderr, "%s\n", strerror(errno));
 	      }
