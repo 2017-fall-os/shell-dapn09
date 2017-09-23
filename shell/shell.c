@@ -71,7 +71,6 @@ void main(int argc, char **argv, char**envp){
 	      int res = chdir(argv[1]); //change directory
 	      if(res != 0){
 	      	fprintf(stderr, "%s\n", strerror(errno));
-		perror("ERROR:");
 	      }
 		//char cwd[1024];
 		//fprintf(stderr, "The current dir is: %s\n", getcwd(cwd, sizeof(cwd)));
