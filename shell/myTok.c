@@ -258,6 +258,7 @@ char **myTok(char *str, char delim){
   return tokens;
 }
 //this method will recursively analyze the input tokens direct i/o and start the processes.
-void analyzer(){
-
+void analyzer(char** parsedToks, char** pathVector, char** envp){
+	
+	
 }
