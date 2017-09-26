@@ -8,5 +8,6 @@ int launcher(int argc, char *argv[], char* path[], char *envp[]);
 char ** getPath(char** envp);
 int tokenLen(char *tok);
 char *prepName(char* currPath, char* argv0);
+void analyzer(char** parsedToks, char** pathVector, char** envp);
 
 #endif
