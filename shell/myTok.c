@@ -261,11 +261,9 @@ char **myTok(char *str, char delim){
 void analyzer(char** parsedToks, char** pathVector, char** envp){
 
 //only execute this code if there are tokens left in the array. 
-	if(*parsedToks == 0){
+	if(*parsedToks == 0){//if the array of tokens is empty, base case.
 		return;
 	}
-	//recursive call.
-	analyzer();
 	int numNormalToks = 0;//number of normal tokens, used to create normalToks.
 	char** normalToks;//this array will contain the actual tokens passed as arguments to the launcher.
 	int pipeType = 0;//0 = no pipe was found, 1 = '<', 2 = '>', 3 = '|'.
@@ -305,8 +303,8 @@ void analyzer(char** parsedToks, char** pathVector, char** envp){
 	  	close(pipeFds[0]); close(pipeFds[1]);
 		
 			
-		//prepare the tokens trailing tokens and make the recursive call.
-		//then launch normally.
+		//prepare the trailing tokens and make the recursive call.
+		char** normalCommands = (char**) calloc(normalToks + 1, 1);
 		
 	  	//printf("hello from child");
 	  	//exit(2);
@@ -317,7 +315,6 @@ void analyzer(char** parsedToks, char** pathVector, char** envp){
 	  		dup(pipeFds[0]);
 	  		close(pipeFds[0]); close(pipeFds[1]);
 	  		waitVal = waitpid(pid, &waitStatus, 0);
-			
 		}			
 	}else
 	if(pipeType == 2){//if pipe was >
@@ -335,7 +332,8 @@ void analyzer(char** parsedToks, char** pathVector, char** envp){
 	  	dup(pipeFds[0]);
 	  	close(pipeFds[0]); close(pipeFds[1]);
 					
-		//prepare the tokens trailing tokens and make the recursive call.
+		//prepare the trailing tokens and make the recursive call.
+		
 		//then launch normally.
 			
 	  	//printf("hello from child");
@@ -347,11 +345,9 @@ void analyzer(char** parsedToks, char** pathVector, char** envp){
 	  		dup(pipeFds[1]);
 	  		close(pipeFds[0]); close(pipeFds[1]);
 	  		waitVal = waitpid(pid, &waitStatus, 0);
-			
 		}		
 	}else
 	if(pipeType == 0){//if there was no pipe or this is the last block.
 		//launch normally.
 	}
-
 }
