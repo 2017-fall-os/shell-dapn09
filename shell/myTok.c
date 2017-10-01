@@ -257,3 +257,5 @@ char **myTok(char *str, char delim){
   }
   return tokens;
 }
+
+void analyzer(char** parsedToks, char** pathVector, char** envp){}
