@@ -33,9 +33,9 @@ void main(int argc, char **argv, char**envp){
     char delimiter = dlt[0];
     char ** parsedToks = myTok(buffer, delimiter);
     char ** pathVector = getPath(envp);
-    int sizeCom = tokenLen(parsedToks[0]);
+    int size1stCom = tokenLen(parsedToks[0]);
     //check for exit key word
-    if(sizeCom > 3)    
+    if(size1stCom > 3)    
       if(parsedToks[0][0] == 'e')
 	if(parsedToks[0][1] == 'x')
 	  if(parsedToks[0][2] == 'i')
@@ -54,7 +54,7 @@ void main(int argc, char **argv, char**envp){
 	    continue;
 	  }*/
      //check for printing environment vars.    
-     if(sizeCom > 4)    
+     if(size1stCom > 4)    
       if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
 	if(parsedToks[0][1] == 'n')
 	  if(parsedToks[0][2] == 'v')
@@ -65,7 +65,7 @@ void main(int argc, char **argv, char**envp){
       }
 	    
      //check for changing directory
-     if(sizeCom == 2)    
+     if(size1stCom == 2)    
        if(parsedToks[0][0] == 'c')//for testing purposes only, remove for final submission
 	 if(parsedToks[0][1] == 'd'){
 	      int res = chdir(parsedToks[1]); //change directory 
