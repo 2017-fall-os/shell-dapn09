@@ -258,4 +258,8 @@ char **myTok(char *str, char delim){
   return tokens;
 }
 
-void analyzer(char** parsedToks, char** pathVector, char** envp){}
+//this method helps the shell support only simple pipes of the type a>b or a<b.
+void analyzer(char** parsedToks, char** pathVector, char** envp){
+
+	
+}
