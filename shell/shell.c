@@ -22,6 +22,7 @@ void main(int argc, char **argv, char**envp){
    
     if(ans < 0){//if there is an error in the reading process.
       write(1, "Ooops!!! There was an error while reading the input.\n", 53);
+	continue;
     }
 	  
     if((buffer[0] == 0)||(buffer[0] == '\n')){
