@@ -25,7 +25,7 @@ void main(int argc, char **argv, char**envp){
     }
 	  
     if((buffer[0] == 0)||(buffer[0] == '\n')){
-	   write(1, "Ooops!!! stream closed or equal to newline.\n", 53); 
+	   //write(1, "Ooops!!! stream closed or equal to newline.\n", 53); 
 	   continue; //if there is no input, start again.
     }
     
