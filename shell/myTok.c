@@ -301,7 +301,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				close(pipeFds[1]);
 				
 				launcher(0, fToken, pathVector, envp);//fToken
-				//exit(2);
+				exit(2);
 			}else{//parent
 				write(1, "w9\n", 4);//for debugging
 				char buf[100];
@@ -309,12 +309,12 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				dup(pipeFds[0]);
 				close(pipeFds[0]);
 				close(pipeFds[1]);
-				wait(NULL);
+				
 				fgets(buf, 100, stdin);
 				printf(buf);//for debugging
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
+				wait(NULL);
 				
-				exit(2);
 			}
 		}else{
 		write(1, "w10\n", 5);//for debugging
