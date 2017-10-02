@@ -314,8 +314,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				//printf(buf);//for debugging
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
 				wait(NULL);
-				//close(0);
-				write(0, "\n", 2);
+				//write(0, "\n", 2);
 			}
 		}else{
 		//write(1, "w10\n", 5);//for debugging
