@@ -302,7 +302,6 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
 				
 				waitpid(pid, 0, 0);
-				return 0;
 			}
 		}
 	}else{
