@@ -310,12 +310,11 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				close(pipeFds[0]);
 				close(pipeFds[1]);
 				
-				read(0,buf,sizeof(buf));
-				printf(buf);//for debugging
+				//read(0,buf,sizeof(buf));
+				//printf(buf);//for debugging
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
 				wait(NULL);
-				write(0, "\n", 1);
-				//close(0);
+				close(0);
 				//dup(0);
 			}
 		}else{
