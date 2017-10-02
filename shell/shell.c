@@ -15,7 +15,7 @@ void main(int argc, char **argv, char**envp){
 
   while(!exit){
 
-    write(1, "y ", 2);//write prompt to the screen.
+    write(1, "$ ", 2);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
     int ans = read(0, buffer, 128);
 
@@ -25,6 +25,7 @@ void main(int argc, char **argv, char**envp){
     }
 	  
     if((buffer[0] == 0)||(buffer[0] == '\n')){
+	   write(1, "Ooops!!! stream closed or equal to newline.\n", 53); 
 	   continue; //if there is no input, start again.
     }
     
