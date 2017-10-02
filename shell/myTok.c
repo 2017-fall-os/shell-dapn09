@@ -258,8 +258,16 @@ char **myTok(char *str, char delim){
   return tokens;
 }
 
-//this method helps the shell support only simple pipes of the type a>b or a<b.
+//this method helps the shell support only simple pipes of the type a|b
 void analyzer(char** parsedToks, char** pathVector, char** envp){
 
-	
+	int numToks = 0;
+	while(*parsedToks != 0){
+		numToks++;
+	}
+	if(numToks >= 3){
+		if(**(parsedToks + 1) == '|'){
+			
+		}
+	}
 }
