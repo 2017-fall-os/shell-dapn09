@@ -274,7 +274,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			while(*iter != 0){
 				fTokSize++;
 				iter++;
-				write(1, "w6\n", 4);//for debugging
+				//write(1, "w6\n", 4);//for debugging
 			}
 			char **fToken = (char**)calloc(2, 1);
 			*fToken = (char*) calloc(fTokSize + 1, 1);
@@ -284,26 +284,26 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				fToken[0][i] = *iter;
 				iter++;
 				i++;
-				write(1, "w7\n", 4);//for debugging
+				//write(1, "w7\n", 4);//for debugging
 			}
-			print2DArray(fToken);//for debugging only
+			//print2DArray(fToken);//for debugging only
 			char** restOfToks = parsedToks + 2;
-			print2DArray(restOfToks);//for debugging only
+			//print2DArray(restOfToks);//for debugging only
 			int*pipeFds;
 			pipeFds = (int*)calloc(2, sizeof(int));
 			pipe(pipeFds);
 			int pid = fork();
 			if(pid == 0){//child
-				write(1, "w8\n", 4);//for debugging
+				//write(1, "w8\n", 4);//for debugging
 				close(1);//close display, stdout.
 				dup(pipeFds[1]);//duplicate the input side of pipe.
 				close(pipeFds[0]);
 				close(pipeFds[1]);
 				
 				launcher(0, fToken, pathVector, envp);//fToken
-				//exit(2);
+				exit(2);
 			}else{//parent
-				write(1, "w9\n", 4);//for debugging
+				//write(1, "w9\n", 4);//for debugging
 				char buf[100];
 				close(0);//close the keyboard, stdin.
 				dup(pipeFds[0]);
@@ -317,12 +317,12 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				
 			}
 		}else{
-		write(1, "w10\n", 5);//for debugging
+		//write(1, "w10\n", 5);//for debugging
 		launcher(0, parsedToks, pathVector, envp);
 		}
 			
 	}else{
-		write(1, "w11\n", 5);//for debugging
+		//write(1, "w11\n", 5);//for debugging
 		launcher(0, parsedToks, pathVector, envp);
 	}
 }
