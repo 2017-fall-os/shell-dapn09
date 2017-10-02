@@ -273,6 +273,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			char *iter = *parsedToks;
 			while(*iter != 0){
 				fTokSize++;
+				iter++;
 				write(1, "w6\n", 4);//for debugging
 			}
 			char **fToken = (char**)calloc(2, 1);
