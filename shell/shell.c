@@ -25,7 +25,7 @@ void main(int argc, char **argv, char**envp){
     }
 	  
     if((buffer[0] == 0)||(buffer[0] == '\n')){
-	   continue; //if there is no input, start again.
+	   //continue; //if there is no input, start again.
     }
     
     //to check for the keyword to exit the tokenizer.
