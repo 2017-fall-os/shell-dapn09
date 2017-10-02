@@ -291,7 +291,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				close(pipeFds[0]);
 				close(pipeFds[1]);
 				
-				launch();//fToken
+				launcher(0, fToken, pathVector, envp);//fToken
 				exit(2);
 			}else{//parent
 				char buf[100];
@@ -299,13 +299,13 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				dup(pipeFds[0]);
 				close(pipeFds[0]);
 				close(pipeFds[1]);
-				launch();//restOfToks
+				launcher(0, restOfToks, pathVector, envp);//restOfToks
 				
 				waitpid(pid, 0, 0);
 				return 0;
 			}
-		}else{
-			
 		}
+	}else{
+		launcher(0, parsedToks, pathVector, envp);
 	}
 }
