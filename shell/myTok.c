@@ -285,7 +285,9 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				iter++;
 				write(1, "w7\n", 4);//for debugging
 			}
+			print2DArray(fToken);//for debugging only
 			char** restOfToks = parsedToks + 2;
+			print2DArray(restOfToks);//for debugging only
 			int*pipeFds;
 			pipeFds = (int*)calloc(2, sizeof(int));
 			pipe(pipeFds);
