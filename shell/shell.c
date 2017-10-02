@@ -15,7 +15,7 @@ void main(int argc, char **argv, char**envp){
 
   while(!exit){
 
-    write(1, "$ ", 2);//write prompt to the screen.
+    write(1, "y ", 2);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
     int ans = read(0, buffer, 128);
 
@@ -24,8 +24,8 @@ void main(int argc, char **argv, char**envp){
       write(1, "Ooops!!! There was an error while reading the input.\n", 53);
     }
 	  
-    if(/*(buffer[0] == 0)||*/(buffer[0] == '\n')){
-	   //continue; //if there is no input, start again.
+    if((buffer[0] == 0)||(buffer[0] == '\n')){
+	   continue; //if there is no input, start again.
     }
     
     //to check for the keyword to exit the tokenizer.
