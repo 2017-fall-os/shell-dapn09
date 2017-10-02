@@ -81,7 +81,7 @@ void main(int argc, char **argv, char**envp){
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
 	      //print2DArray(pathVector);//for debugging purposes only.
-	launcher(0, parsedToks, pathVector, envp);
+	checkSimPipes(parsedToks, pathVector, envp);
 	freeArray(parsedToks);
 	
       }
