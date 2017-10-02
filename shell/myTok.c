@@ -271,6 +271,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			char *iter = *parsedToks;
 			while(*iter != 0){
 				fTokSize++;
+				write(1, "w6\n", 4);//for debugging
 			}
 			char **fToken = (char**)calloc(2, 1);
 			*fToken = (char*) calloc(fTokSize + 1, 1);
@@ -279,6 +280,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			while(*iter != 0){//copy the first token
 				fToken[0][i] = *iter;
 				iter++;
+				write(1, "w7\n", 4);//for debugging
 			}
 			char** restOfToks = parsedToks + 2;
 			int*pipeFds;
@@ -286,6 +288,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			pipe(pipeFds);
 			int pid = fork();
 			if(pid == 0){//child
+				write(1, "w8\n", 4);//for debugging
 				close(1);//close display, stdout.
 				dup(pipeFds[1]);//duplicate the input side of pipe.
 				close(pipeFds[0]);
@@ -294,6 +297,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				launcher(0, fToken, pathVector, envp);//fToken
 				exit(2);
 			}else{//parent
+				write(1, "w9\n", 4);//for debugging
 				char buf[100];
 				close(0);//close the keyboard, stdin.
 				dup(pipeFds[0]);
@@ -305,6 +309,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			}
 		}
 	}else{
+		write(1, "w10\n", 5);//for debugging
 		launcher(0, parsedToks, pathVector, envp);
 	}
 }
