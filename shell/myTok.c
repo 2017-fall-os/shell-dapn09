@@ -283,6 +283,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 			while(*iter != 0){//copy the first token
 				fToken[0][i] = *iter;
 				iter++;
+				i++;
 				write(1, "w7\n", 4);//for debugging
 			}
 			print2DArray(fToken);//for debugging only
