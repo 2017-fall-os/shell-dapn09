@@ -310,7 +310,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				close(pipeFds[0]);
 				close(pipeFds[1]);
 				
-				fgets(buf, 100, stdin);
+				read(0,buf,sizeof(buf))
 				printf(buf);//for debugging
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
 				wait(NULL);
