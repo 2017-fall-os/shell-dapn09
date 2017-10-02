@@ -259,14 +259,52 @@ char **myTok(char *str, char delim){
 }
 
 //this method helps the shell support only simple pipes of the type a|b
-void analyzer(char** parsedToks, char** pathVector, char** envp){
+void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 
 	int numToks = 0;
 	while(*parsedToks != 0){
 		numToks++;
 	}
 	if(numToks >= 3){
-		if(**(parsedToks + 1) == '|'){
+		if(parsedToks[1][0] == '|'){//check if the second token is a pipe like in example.
+			int fTokSize = 0;
+			char *iter = *parsedToks;
+			while(*iter != 0){
+				fTokSize++;
+			}
+			char **fToken = (char**)calloc(2, 1);
+			*fToken = (char*) calloc(fTokSize + 1, 1);
+			iter = *parsedToks;
+			int i = 0;
+			while(*iter != 0){//copy the first token
+				fToken[0][i] = *iter;
+				iter++;
+			}
+			char** restOfToks = parsedToks + 2;
+			int*pipeFds;
+			pipeFds = (int*)calloc(2, sizeof(int));
+			pipe(pipeFds);
+			int pid = fork();
+			if(pid == 0){//child
+				close(1);//close display, stdout.
+				dup(pipeFds[1]);//duplicate the input side of pipe.
+				close(pipeFds[0]);
+				close(pipeFds[1]);
+				
+				launch();//fToken
+				exit(2);
+			}else{//parent
+				char buf[100];
+				close(0);//close the keyboard, stdin.
+				dup(pipeFds[0]);
+				close(pipeFds[0]);
+				close(pipeFds[1]);
+				launch();//restOfToks
+				
+				waitpid(pid, 0, 0);
+				return 0;
+			}
+		}else{
 			
 		}
 	}
