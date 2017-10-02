@@ -301,7 +301,7 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				close(pipeFds[1]);
 				
 				launcher(0, fToken, pathVector, envp);//fToken
-				exit(2);
+				//exit(2);
 			}else{//parent
 				//write(1, "w9\n", 4);//for debugging
 				char buf[100];
