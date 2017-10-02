@@ -309,12 +309,12 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				dup(pipeFds[0]);
 				close(pipeFds[0]);
 				close(pipeFds[1]);
-				wait(NULL);
+				
 				read(0,buf,sizeof(buf));
 				printf(buf);//for debugging
 				launcher(0, restOfToks, pathVector, envp);//restOfToks
+				wait(NULL);
 				
-				//exit(2);
 			}
 		}else{
 		//write(1, "w10\n", 5);//for debugging
