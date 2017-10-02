@@ -262,8 +262,10 @@ char **myTok(char *str, char delim){
 void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 
 	int numToks = 0;
-	while(*parsedToks != 0){
+	char** cIter = parsedToks;
+	while(*cIter != 0){
 		numToks++;
+		cIter++;
 	}
 	if(numToks >= 3){
 		if(parsedToks[1][0] == '|'){//check if the second token is a pipe like in example.
