@@ -24,13 +24,12 @@ void main(int argc, char **argv, char**envp){
       write(1, "There was an error while reading the input.\n", 44);
     }
 	  
-    if(/*(buffer[0] == 0)||*/(buffer[0] == '\n')){
+    if((buffer[0] == 0)||(buffer[0] == '\n')){
 	   //if(buffer[0] == '\n')
 	   //write(1, "Ooops!!! stream closed or equal to newline.\n", 53); 
 	   continue; //if there is no input, start again.
     }
 	  
-    if(ans == 0)continue;
     
     //to check for the keyword to exit the tokenizer.
     if(ans > 0){	    
