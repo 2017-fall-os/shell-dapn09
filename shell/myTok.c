@@ -114,7 +114,7 @@ char ** getPath(char** envp){
 
 //helper method used to print the 2D array
 void print2DArray(char** array){
-write(1, "w5\n", 4);//for debugging
+//write(1, "w5\n", 4);//for debugging
   char** tokens = array;
   int i = 0;
   int count = 0;
