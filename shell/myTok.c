@@ -310,9 +310,12 @@ void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
 				
 				waitpid(pid, 0, 0);
 			}
+		}else{
+		launcher(0, parsedToks, pathVector, envp);
 		}
+			
 	}else{
-		write(1, "w10\n", 5);//for debugging
+		//write(1, "w10\n", 5);//for debugging
 		launcher(0, parsedToks, pathVector, envp);
 	}
 }
