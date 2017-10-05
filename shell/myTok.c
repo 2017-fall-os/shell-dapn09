@@ -4,43 +4,9 @@
 #include <string.h>
 #include <sys/wait.h>
 #include "myTok.h"
+#include "helpers.h"
 #include <errno.h>
 
-int tokenLen(char *tok){// tool method for measuring size of tokens
-    int i = 0;
-    while(*tok != 0){
-	i++;
-	tok +=1;
-	//write(1, "w6\n", 4);//for debugging
-    }
-    return i;
-}
-
-char *prepName(char* currPath, char* argv0){
-
-     int curPathLength = tokenLen(currPath);
-     int argLength = tokenLen(argv0);
-     char *newName = (char*)calloc((curPathLength + 1 + argLength + 1), 1);
-     int i = 0;//the index to newName
-     int j = 0;
-     while(j<curPathLength){
-	   //write(1, "w1\n", 4);//for debugging
-     	   newName[i] = currPath[j];
-	   i++;
-	   j++;
-     }
-     newName[i] = '/';
-     i++;
-     j = 0;
-     while(j<argLength){
-	   //write(1, "w2\n", 4);//for debugging
-     	   newName[i] = argv0[j];
-	   i++;
-	   j++;
-     }
-     newName[i] = 0;
-     return newName;
-}
 
 int launcher(int argc, char *argv[], char* path[], char *envp[]){
 
@@ -85,65 +51,6 @@ int launcher(int argc, char *argv[], char* path[], char *envp[]){
   }
 }
 
-//this method gets a reference to the envp vector and returns a vector made from the PATH entries.
-char ** getPath(char** envp){
-    char **pathVec = 0;// this will be the returned array
-    char **currStr = envp;
-    while(*currStr != 0){//traverse array of strings.
-	int i = 0;
-	char *c = *currStr;
-	while(*c != 0){// to count elements in string, no need to look into shorter strings than 5.
-	    i++;
-	    c++;
-	}
-    	if(i > 5)
-	   c = *currStr;
-	   if(c[0] == 'P')
-	     if(c[1] == 'A')
-		if(c[2] == 'T')
-		   if(c[3] == 'H')
-		      if(c[4] == '='){
-			//write(1, "PATH was found!\n", 17);//for debugging
-			pathVec = (char**) myTok(&c[5] , ':');//we pass the remainder of the string and the delimiter set to ':'
-			 return pathVec;
-		      }
-	currStr += 1;     
-    }
-    return pathVec;
-}
-
-//helper method used to print the 2D array
-void print2DArray(char** array){
-//write(1, "w5\n", 4);//for debugging
-  char** tokens = array;
-  int i = 0;
-  int count = 0;
-  
-  while(*tokens != 0){
-
-    while(*(*tokens + i) != 0){
-      count++;
-      i++;
-    }
-    i = 0;
-    write(1, *tokens, count);
-    write(1, "\n", 1);
-    count = 0;
-    tokens++;
-  }
-
-}
-
-//this method frees the memory used.
-void freeArray(char** array){
-
-  char** iter = array;
-  while(*iter != 0){
-    free(*iter);
-    iter++;
-  }
-  free(array);
-}
 
 //this method will take a string and break it into tokens, then return a pointer to the array containing the tokens
 //precondition, input is of the type "h e l l o 0"
@@ -259,70 +166,10 @@ char **myTok(char *str, char delim){
 }
 
 //this method helps the shell support only simple pipes of the type a|b
-void checkSimPipes(char** parsedToks, char** pathVector, char** envp){
-
-	int numToks = 0;
-	char** cIter = parsedToks;
-	while(*cIter != 0){
-		numToks++;
-		cIter++;
-	}
-	if(numToks >= 3){
-		if(parsedToks[1][0] == '|'){//check if the second token is a pipe like in example.
-			int fTokSize = 0;
-			char *iter = *parsedToks;
-			while(*iter != 0){
-				fTokSize++;
-				iter++;
-				//write(1, "w6\n", 4);//for debugging
-			}
-			char **fToken = (char**)calloc(2, 1);
-			*fToken = (char*) calloc(fTokSize + 1, 1);
-			iter = *parsedToks;
-			int i = 0;
-			while(*iter != 0){//copy the first token
-				fToken[0][i] = *iter;
-				iter++;
-				i++;
-				//write(1, "w7\n", 4);//for debugging
-			}
-			//print2DArray(fToken);//for debugging only
-			char** restOfToks = parsedToks + 2;
-			//print2DArray(restOfToks);//for debugging only
-			int*pipeFds;
-			pipeFds = (int*)calloc(2, sizeof(int));
-			pipe(pipeFds);
-			int pid = fork();
-			if(pid == 0){//child
-				//write(1, "w8\n", 4);//for debugging
-				close(1);//close display, stdout.
-				dup(pipeFds[1]);//duplicate the input side of pipe.
-				close(pipeFds[0]);
-				close(pipeFds[1]);
-				
-				launcher(0, fToken, pathVector, envp);//fToken
-				exit(2);
-			}else{//parent
-				//write(1, "w9\n", 4);//for debugging
-				char buf[100];
-				close(0);//close the keyboard, stdin.
-				dup(pipeFds[0]);
-				close(pipeFds[0]);
-				close(pipeFds[1]);
-				
-				//read(0,buf,sizeof(buf));
-				//printf(buf);//for debugging
-				launcher(0, restOfToks, pathVector, envp);//restOfToks
-				wait(NULL);
-				//bug must be happening here, the input is starting an infinite loop in shell.c :(
-			}
-		}else{
-		//write(1, "w10\n", 5);//for debugging
-		launcher(0, parsedToks, pathVector, envp);
-		}
-			
-	}else{
-		//write(1, "w11\n", 5);//for debugging
-		launcher(0, parsedToks, pathVector, envp);
-	}
+void analyzer(char* origString, char** pathVector, char** envp){
+  //first we need to find number of '&' in original
+  int andCount = ocurrencesOf('&', origString);
+  printf("number of chars: %d\n", tokenLen(origString));
+  
+  
 }

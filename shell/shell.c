@@ -1,3 +1,4 @@
+#include "helpers.h"
 #include <stdio.h>
 #include "myTok.h"
 #include <unistd.h>
@@ -84,12 +85,10 @@ void main(int argc, char **argv, char**envp){
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
 	      //print2DArray(parsedToks);//for debugging purposes only.
-	checkSimPipes(parsedToks, pathVector, envp);
+	analyzer(buffer, pathVector, envp);
 	//launcher(0, parsedToks, pathVector, envp);
-	freeArray(parsedToks);
-	
       }
-
+      freeArray(parsedToks);
       free(buffer);
     }
     
