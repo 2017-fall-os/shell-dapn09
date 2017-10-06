@@ -81,15 +81,17 @@ void main(int argc, char **argv, char**envp){
 	      free(buffer);
 	      continue;
          }
-	
+
+      char* trimBuff = rmTailSpaces(buffer);//for debugging
       //if the word entered is not exit then pass the string to myTok.
       if(!exit){
 	      //print2DArray(parsedToks);//for debugging purposes only.
-	analyzer(buffer, pathVector, envp);
+
+	analyzer(trimBuff, pathVector, envp);
 	//launcher(0, parsedToks, pathVector, envp);
       }
       freeArray(parsedToks);
-      free(buffer);
+      free(trimBuff);
     }
     
   }

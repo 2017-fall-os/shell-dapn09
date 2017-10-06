@@ -167,9 +167,20 @@ char **myTok(char *str, char delim){
 
 //this method helps the shell support only simple pipes of the type a|b
 void analyzer(char* origString, char** pathVector, char** envp){
-  //first we need to find number of '&' in original
+
+  //first we need to find number of '&' in original.
   int andCount = ocurrencesOf('&', origString);
-  printf("number of chars: %d\n", tokenLen(origString));
+  
+  //we must then find if the string ends with an '&'.
+  int lastBackAnd = 0;//zero means no '&' in last pos, 1 means yes.
+  if(origString[tokenLen(origString) - 1] == '&'){
+    lastBackAnd = 1;
+  }
+  //now we must create the array to hold the bg processes.
+  char** processes = myTok(origString, '&');
+
+  //
+  
   
   
 }

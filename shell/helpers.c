@@ -128,3 +128,13 @@ void freeArray(char** array){
   }
   free(array);
 }
+
+char * rmTailSpaces(char* buffer){
+
+  int i = tokenLen(buffer) - 1;
+  while((buffer[i] == '\n')||(buffer[i] == ' ')){
+    buffer[i] = 0;
+    i--;
+  }
+  return buffer;
+} 

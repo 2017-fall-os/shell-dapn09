@@ -8,5 +8,5 @@ int tokenLen(char *tok);
 char *prepName(char* currPath, char* argv0);
 int countTokens(char** array);
 int ocurrencesOf(char needle, char *hayStack);
-
+char *rmTailSpaces(char* buffer);
 #endif
