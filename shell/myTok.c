@@ -8,6 +8,8 @@
 #include "helpers.h"
 #include <errno.h>
 
+char** path;
+char** envparams;
 
 int launcher(int argc, char *argv[], char* path[], char *envp[]){
 
@@ -169,6 +171,9 @@ char **myTok(char *str, char delim){
 //this method helps the shell support only simple pipes of the type a|b
 void analyzer(char* origString, char** pathVector, char** envp){
 
+  path = pathVector;
+  envparams = envp;
+  
   //first we need to find number of '&' in original.
   int andCount = ocurrencesOf('&', origString);
   
@@ -194,7 +199,7 @@ void analyzer(char* origString, char** pathVector, char** envp){
   //we must free the 2d array "processes" here.
 }
 
- void prepGusintah(char *process){
+void prepGusintah(char *process){
 
   //to remove spaces and nls at end.
   char* gusintah = rmTailSpaces(process);
@@ -239,13 +244,77 @@ void runWithPipes(char* process){
   free(trimmedPip);
   
   int count = countTokens(pipingToks);
-  if(count > 1){
-    while(*pipingToks != 0){
-      
-      
+
+  char** command;
+  char** currPath;
+  
+  if(count > 1){//only do the piping if there is at least one pipe symbol.
+  int stat;
+  int i = 0;
+  pid_t pid;
+  
+  //we will use a larger pipe since its not just one process that will be run.
+  int pipes[2*count];
+  for(i = 0; i<count; i++){
+    if(pipe(pipes + i*2) < 0){//if true there was an error creating pipes.
+      perror("couldn't pipe\n");
+      exit(EXIT_FAILURE);
     }
+  }
+
+  int j = 0;
+  while(*pipingToks != 0){
+    pid = fork();
+    if(pid == 0){
+
+      if(*(pipingToks + 1) != 0){
+
+	if(dup2(pipes[j + 1], 1)<0){
+	  perror("dup2\n");
+	  exit(EXIT_FAILURE);
+	}
+      }
+
+      if(j != 0){
+	if(dup2(pipes[j-2], 0) < 0){
+	  perror("dup2\n");
+	  exit(EXIT_FAILURE);
+	}
+      }
+
+      for(i = 0; i < (2*count); i++){
+	close(pipes[i]);
+      }
+
+      command = myTok(*pipingToks, ' ');//this is the final product of command and params.
+      currPath = path;
+      while(*currPath != 0){
+	    char *newName = prepName(*currPath, command[0]);//we will construct the full path name to try it
+	    //write(1, "w3\n", 4);//for debugging
+      	    execve(newName, command, envparams);
+	    free(newName);//free useless construct.
+	    currPath += 1;
+      }
+      fprintf(stderr, "%s\n", strerror(errno));//print the error, this stmnt only reached if none worked, program doesnt exist
+      exit(1);
+    }else
+    if(pid < 0){
+	perror("error");
+	exit(EXIT_FAILURE);
+    }
+    pipingToks++;
+    j += 2;
+  }
+  for(i = 0; i < 2*count; i++){
+    close(pipes[i]);
+  }
+  
+  for(i = 0; i<count + 1; i++){
+    wait(&stat);
+  }
   }else{
-    
+    command = myTok(*pipingToks, ' ');
+    launcher(0, command, path, envparams);
   }
 }
 
