@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 #include "myTok.h"
 #include "helpers.h"
@@ -193,12 +194,42 @@ void analyzer(char* origString, char** pathVector, char** envp){
   //we must free the 2d array "processes" here.
 }
 
-void runForeGround(int num, char* process){
+ void prepGusintah(char *process){
 
-  //tokenize by '|'
-  char** statements = myTok(process, '|');
+  //to remove spaces and nls at end.
+  char* gusintah = rmTailSpaces(process);
   
+  //tokenize by '>'
+  char** gusToks = myTok(process, '>');
+
+  //use only the first argument into the second, more than two would generate empty files.
+  if(countTokens(gusToks) > 1){
+
+    char** dispToks = myTok(gusToks[1], ' ');//use the first word found on the right side of the gusintah as file name.
+    int saved_stdout = dup(1);
+    close(1);//close stdout
+    open(dispToks[0], O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);//open the file outputstream
+
+    freeArray(dispToks);//array no longer useful
+    runWithPipes(gusToks[0]);//run the left side of expression
+    close(1);
+    dup(saved_stdout);//return things back to normal once done
+    
+  }else{
+    //run normally, there is no file to write into.
+    runWithPipes(process);
+  }
   
+  freeArray(gusToks);
+
+}
+
+void runForeGround(int num, char* process){
+  prepGusintah(process);
+}
+
+
+void runWithPipes(char* process){
   
 }
 
@@ -207,19 +238,18 @@ void runBackGround(int num, char* process){
   pid_t pid = fork();//fork the process
   int r;
   if(pid < 0){
-    write(1, "fork failed\n", 13);
+    write(1, "fork failed for background\n", 27);
     exit(1);
   }
   if(pid == 0){//child
     
     r = setpgid(0,0);//set self in different process group, essentially in background.
 
-    //launch here
+    prepGusintah(process);
     
     exit(1);// we must exit the child once so prompt isnt printed twice.
     
   }else{//parent
-
     //set child in different process group, essentially in background.
     r = setpgid(pid,0);
     //would be nice to print bg process' id.
