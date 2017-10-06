@@ -230,7 +230,23 @@ void runForeGround(int num, char* process){
 
 
 void runWithPipes(char* process){
+
+  //clean the end of the string
+  char * trimmedPip = rmTailSpaces(process);
+
+  //tokenize by pipes
+  char** pipingToks = myTok(trimmedPip, '|');
+  free(trimmedPip);
   
+  int count = countTokens(pipingToks);
+  if(count > 1){
+    while(*pipingToks != 0){
+      
+      
+    }
+  }else{
+    
+  }
 }
 
 void runBackGround(int num, char* process){
