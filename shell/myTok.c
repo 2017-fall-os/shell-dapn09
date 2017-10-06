@@ -178,9 +178,46 @@ void analyzer(char* origString, char** pathVector, char** envp){
   }
   //now we must create the array to hold the bg processes.
   char** processes = myTok(origString, '&');
+  int numProcs = countTokens(processes);
+  int i = 0;
+  
+  while(i < numProcs){
 
-  //
+    if(((i + 1) == numProcs)&&(!lastBackAnd)){//the last process is not a background process
+      runForeGround(processes[i]);
+    }else{//everything is a bg
+      runBackGround(processes[i]);
+    }
+    i++;
+  }
+  //we must free the 2d array "processes" here.
+}
+
+void runForeGround(char* process){
+
+  //tokenize by '|'
+  char** statements = myTok(process, '|');
   
   
+  
+}
+
+void runBackGround(char* process){
+
+  pid_t pid = fork();//fork the process
+  int r;
+  if(pid < 0){
+    write(1, "fork failed\n", 13);
+    exit(1);
+  }
+  if(pid == 0){//child
+    r = setpgid(0,0);//set self in different process group, essentially in background.
+    
+    exit(1);// we must esit the child once so prompt isnt printed twice.
+  }else{//parent
+    r = setpgid(pid,0);//set child in different process group, essentially in background.
+    
+    //this branch is the normal shell.
+  }
   
 }
