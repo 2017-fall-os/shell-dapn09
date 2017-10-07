@@ -9,12 +9,13 @@
 
 void main(int argc, char **argv, char**envp){
 
-  //STEP 1: create a persistent prompt
-  int exit = 0;
+  //create a persistent prompt.
+  int ex = 0;
+  //was used in tokenizer, serves as a tool now.
   char dlt[1] = {' '}; 
   
 
-  while(!exit){
+  while(!ex){
 
     write(1, "$ ", 2);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
@@ -22,12 +23,18 @@ void main(int argc, char **argv, char**envp){
 
    
     if(ans < 0){//if there is an error in the reading process.
-      write(1, "There was an error while reading the input.\n", 44);
+      fprintf(stderr, "%s\n", strerror(errno));
+      exit(1);
+    }
+
+    if(ans == 0){//if EOF read, exit.
+      fprintf(stderr, "%s\n", strerror(errno));
+      exit(1);
     }
 	  
-    if((buffer[0] == 0)||(buffer[0] == '\n')){
+    if((buffer[0] == 0)||(buffer[0] == '\n')||(buffer[0] == EOF)){
 	   //if(buffer[0] == '\n')
-	   //write(1, "Ooops!!! stream closed or equal to newline.\n", 53); 
+           //printf("buffer[0] is: %c\n", buffer[0]); 
 	   continue; //if there is no input, start again.
     }
 	  
@@ -45,7 +52,7 @@ void main(int argc, char **argv, char**envp){
 	  if(parsedToks[0][2] == 'i')
 	    if(parsedToks[0][3] == 't'){
 	      write(1, "Bye!!!\n", 7);
-	      exit = 1;
+	      ex = 1;
 	    }
 
       /*if(buffer[0] == 'd')
@@ -84,7 +91,7 @@ void main(int argc, char **argv, char**envp){
 
       char* trimBuff = rmTailSpaces(buffer);//for debugging
       //if the word entered is not exit then pass the string to myTok.
-      if(!exit){
+      if(!ex){
 	      //print2DArray(parsedToks);//for debugging purposes only.
 
 	analyzer(trimBuff, pathVector, envp);
