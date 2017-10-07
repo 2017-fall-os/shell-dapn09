@@ -16,7 +16,7 @@ void main(int argc, char **argv, char**envp){
   char dlt[1] = {' '}; 
   char* prompt;
   enVars = envp;//enVars is now the official environment.
-  
+  //enVars = setEnVar("PATH=\"$ \"", enVars);
   while(!ex){
 
     //set the prompt.
@@ -68,7 +68,7 @@ void main(int argc, char **argv, char**envp){
 	    continue;
 	  }*/
      //check for printing environment vars.    
-     if(size1stCom > 4)    
+     if(size1stCom > 3)    
       if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
 	if(parsedToks[0][1] == 'n')
 	  if(parsedToks[0][2] == 'v')
@@ -82,14 +82,14 @@ void main(int argc, char **argv, char**envp){
        if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
 	if(parsedToks[0][1] == 'x')
 	  if(parsedToks[0][2] == 'p')
-	    if(parsedToks[0][3] == 'o')
-	      if(parsedToks[0][3] == 'r')
-		if(parsedToks[0][3] == 't'){
-
+	    if(parsedToks[0][4] == 'o')
+	      if(parsedToks[0][5] == 'r')
+		if(parsedToks[0][6] == 't'){
+		  fprintf(stderr, "entered\n");
 	      enVars = setEnVar(parsedToks[1], enVars);//change variable and update enVars.
 	      free(buffer);
 	      continue;
-      }
+		}
 
      //check for changing directory
      if(size1stCom == 2)    

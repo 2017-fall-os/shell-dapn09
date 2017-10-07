@@ -9,7 +9,49 @@
 
 //get the value of an environmental variable.
 char* getEnVar(char* varName, char** enVars){
-  
+
+  char** iter = enVars;
+  int givenNameSize = tokenLen(varName);
+  int givenValSize = 0;
+  int varNameSize = 0;
+  int cVarSize = 0;
+  int found = 0; //effectively boolean.
+  int matches = 0;
+  int i = 0;
+  while(*iter){
+    cVarSize = tokenLen(*iter);//we must know if the name given exists in enVars.
+    varNameSize = indexOf('=', *iter);
+    if(varNameSize == givenNameSize){//if we find a match in sizes, then check if thyre equal.
+      for(i = 0; i < givenNameSize; i++){
+	if((*iter)[i] == varName[i]){
+	  matches++;
+	}
+      }
+      if(matches == givenNameSize){
+	  found = 1;
+	  break;//if found, no need to keep searching.
+	  matches = 0;
+      }else{
+	  matches = 0;
+      }
+    }
+  iter++;
+  }
+
+  char** value;//the default value to return in case var not found.
+    
+  //iter holds the string that matched, i holds the index of \"   
+  if(found){
+    
+    value = myTok((*iter) + i + 1, '\"');
+      
+  }else{
+    fprintf(stderr, "ERROR: environmental variable \"%s\" not found.\n", varName);
+    value = (char**)calloc(2, sizeof(char*));
+    *value = (char*)calloc(2, sizeof(char));
+    value[0] = "";
+  }
+  return value[0];
 }
 
 //return the index of the char if found, -1 if not.
@@ -58,37 +100,37 @@ char** setEnVar(char* nameAndVal, char** enVars){
     varNameSize = indexOf('=', *iter);
     if(varNameSize == givenNameSize){//if we find a match in sizes, then check if thyre equal.
       for(int i = 0; i < givenNameSize; i++){
-	if((*iter)[i] == naVal[1][i]){
+	if((*iter)[i] == naVal[0][i]){
 	  matches++;
 	}
-	if(matches == givenNameSize){
+      }
+      if(matches == givenNameSize){
 	  found = 1;
 	  matches = 0;
-	}else{
+      }else{
 	  matches = 0;
-	}
       }
     }
     //the new string.
     if(found){//if found, allocate space accordingly
      givenValSize = tokenLen(naVal[1]); 
      //space will be allocated for: varNameSize + = + givenValSize + null.
-     newIter = (char*) calloc(varNameSize + givenValSize + 2, sizeof(char));
+     *newIter = (char*) calloc(varNameSize + givenValSize + 2, sizeof(char));
      int j = 0;
      for(; j<varNameSize; j++){//first copy name
-       newIter[j] = *iter[j];
+       *newIter[j] = *iter[j];
      }
-     newIter[j] = '=';//enter the equal sign
+     *newIter[j] = '=';//enter the equal sign
      for(int i = 0; i<givenValSize; i++){//thencopy new value
 
-       newIter[j] = naVal[1][i];
+       *newIter[j] = naVal[1][i];
        j++;
      }
     }
     else{//copy the whole string as it is.
-     newIter = (char*) calloc(cVarSize + 1, sizeof(char));  
+     *newIter = (char*) calloc(cVarSize + 1, sizeof(char));  
      for(int i = 0; i<cVarSize; i++){
-       newIter[i] = *iter[i];
+       *newIter[i] = *iter[i];
      }
     }
     newIter++;
