@@ -16,11 +16,12 @@ void main(int argc, char **argv, char**envp){
   char dlt[1] = {' '}; 
   char* prompt;
   enVars = envp;//enVars is now the official environment.
-  //enVars = setEnVar("PATH=\"$ \"", enVars);
+  //enVars = setEnVar("PATH=\"\"", enVars);
   while(!ex){
 
     //set the prompt.
     prompt = getEnVar("PS1", enVars);
+    if(prompt != 0)//only print prompt if exists.
     fprintf(stderr, "%s", prompt);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
     int ans = read(0, buffer, 128);
@@ -82,10 +83,10 @@ void main(int argc, char **argv, char**envp){
        if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
 	if(parsedToks[0][1] == 'x')
 	  if(parsedToks[0][2] == 'p')
-	    if(parsedToks[0][4] == 'o')
-	      if(parsedToks[0][5] == 'r')
-		if(parsedToks[0][6] == 't'){
-		  fprintf(stderr, "entered\n");
+	    if(parsedToks[0][3] == 'o')
+	      if(parsedToks[0][4] == 'r')
+		if(parsedToks[0][5] == 't'){
+		  
 	      enVars = setEnVar(parsedToks[1], enVars);//change variable and update enVars.
 	      free(buffer);
 	      continue;

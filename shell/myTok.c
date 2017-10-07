@@ -18,12 +18,12 @@ int launcher(int argc, char *argv[], char* path[], char *envp[]){
   if(*argv[0] == '/'){
 	rc = fork();
   	if (rc < 0) { // fork failed, exit
-    		write(1, "fork failed\n", 13);
+    		fprintf(stderr, "Fork failed\n");
     		exit(1);
     	} else 
     	if (rc == 0) { // child 
      		execve(argv[0], argv, envp); 
-      		write(1, "Command not found\n\n", 20);
+      		fprintf(stderr, "Command not found\n\n");
      		exit(1);
     	} 
     	else { // parent 
@@ -34,7 +34,7 @@ int launcher(int argc, char *argv[], char* path[], char *envp[]){
   	rc = fork();
   	char **currPath = path;
 	if (rc < 0) { // fork failed, exit
-    		write(1, "fork failed\n", 13);
+    		fprintf(stderr, "Fork failed\n");
     		exit(1);
     	} else 
     	if (rc == 0) { // child
@@ -323,7 +323,7 @@ void runBackGround(int num, char* process){
   pid_t pid = fork();//fork the process
   int r;
   if(pid < 0){
-    write(1, "fork failed for background\n", 27);
+    fprintf(stderr, "fork failed for background\n");
     exit(1);
   }
   if(pid == 0){//child
@@ -338,7 +338,7 @@ void runBackGround(int num, char* process){
     //set child in different process group, essentially in background.
     r = setpgid(pid,0);
     //would be nice to print bg process' id.
-    printf("[%d] %d\n", num, pid);
+    fprintf(stderr,"[%d] %d\n", num, pid);
     //this branch is the normal shell.
   }
   

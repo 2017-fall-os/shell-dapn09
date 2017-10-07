@@ -51,6 +51,7 @@ char* getEnVar(char* varName, char** enVars){
     *value = (char*)calloc(2, sizeof(char));
     value[0] = "";
   }
+    
   return value[0];
 }
 
@@ -78,26 +79,33 @@ char** setEnVar(char* nameAndVal, char** enVars){
     fprintf(stderr, "ERROR: please use the format name=\"val\" for param, no spaces.\n");
     return enVars;
   }
-
+  
   int numVars = 0;
   char** iter = enVars;
   while(*iter){
     numVars++;
     iter++;
   }
+  
+  iter = enVars;
+  
   //allocate new vector's space.
   char** newEnVars = (char**) calloc(numVars + 1, sizeof(char*));
   char** newIter = newEnVars;
-  iter = enVars;
+  
   int givenNameSize = tokenLen(naVal[0]);
+  
   int givenValSize = 0;
   int varNameSize = 0;
   int cVarSize = 0;
   int found = 0; //effectively boolean.
+  int numFound = 0;
   int matches = 0;
   while(*iter){
     cVarSize = tokenLen(*iter);//we must know if the name given exists in enVars.
+    
     varNameSize = indexOf('=', *iter);
+    
     if(varNameSize == givenNameSize){//if we find a match in sizes, then check if thyre equal.
       for(int i = 0; i < givenNameSize; i++){
 	if((*iter)[i] == naVal[0][i]){
@@ -106,50 +114,72 @@ char** setEnVar(char* nameAndVal, char** enVars){
       }
       if(matches == givenNameSize){
 	  found = 1;
+	  numFound++;
 	  matches = 0;
       }else{
 	  matches = 0;
       }
     }
+    
     //the new string.
     if(found){//if found, allocate space accordingly
-     givenValSize = tokenLen(naVal[1]); 
+     
+     char** cleanVal = myTok(naVal[1], '\"');
+     
+     //fprintf(stderr, "%d\n", cleanVal[0]);//for debugging
+     givenValSize = tokenLen(cleanVal[0]);
+     
      //space will be allocated for: varNameSize + = + givenValSize + null.
-     *newIter = (char*) calloc(varNameSize + givenValSize + 2, sizeof(char));
+     
+     *newIter = (char*) calloc(varNameSize + givenValSize + 2,1);
+     
      int j = 0;
      for(; j<varNameSize; j++){//first copy name
-       *newIter[j] = *iter[j];
+       
+       (*newIter)[j] = (*iter)[j];
+       
      }
-     *newIter[j] = '=';//enter the equal sign
+     
+     (*newIter)[j] = '=';//enter the equal sign
+     j++;
+     
      for(int i = 0; i<givenValSize; i++){//thencopy new value
 
-       *newIter[j] = naVal[1][i];
+       (*newIter)[j] = cleanVal[0][i];
        j++;
      }
+     
+     freeArray(cleanVal);
+     found = 0;
     }
     else{//copy the whole string as it is.
-     *newIter = (char*) calloc(cVarSize + 1, sizeof(char));  
-     for(int i = 0; i<cVarSize; i++){
-       *newIter[i] = *iter[i];
-     }
+      
+      //*newIter = (char*) calloc(tokenLen(*iter) + 1, sizeof(char));
+     *newIter = *iter; 
+     
     }
     newIter++;
     iter++;
+    
   }
-  if(!found) fprintf(stderr, "ERROR: Given variable name not found, vars unchanged.\n");
+  if(!numFound) fprintf(stderr, "ERROR: Given variable name not found, vars unchanged.\n");
   freeArray(naVal);
+  
   return newEnVars;
 }
 
 
 int tokenLen(char *tok){// tool method for measuring size of tokens
+  
     int i = 0;
+    if(tok != 0)
     while(*tok != 0){
 	i++;
 	tok +=1;
-	//write(1, "w6\n", 4);//for debugging
+	
     }
     return i;
+    
 }
 
 char *prepName(char* currPath, char* argv0){
