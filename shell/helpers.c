@@ -7,6 +7,99 @@
 #include "helpers.h"
 #include <errno.h>
 
+//get the value of an environmental variable.
+char* getEnVar(char* varName, char** enVars){
+  
+}
+
+//return the index of the char if found, -1 if not.
+int indexOf(char needle, char* hayStack){
+
+  char *iter = hayStack;
+  int index = 0;
+  while(*iter){
+    if(*iter == needle){
+      return index;
+    }
+    index++;
+    iter++;
+  }
+  return -1;
+}
+
+//set an environmental variable into the given value.
+char** setEnVar(char* nameAndVal, char** enVars){
+
+  //first we must tokenize nameAndVal.
+  char** naVal = myTok(nameAndVal, '=');
+  if(countTokens(naVal) != 2){
+    fprintf(stderr, "ERROR: please use the format name=\"val\" for param, no spaces.\n");
+    return enVars;
+  }
+
+  int numVars = 0;
+  char** iter = enVars;
+  while(*iter){
+    numVars++;
+    iter++;
+  }
+  //allocate new vector's space.
+  char** newEnVars = (char**) calloc(numVars + 1, sizeof(char*));
+  char** newIter = newEnVars;
+  iter = enVars;
+  int givenNameSize = tokenLen(naVal[0]);
+  int givenValSize = 0;
+  int varNameSize = 0;
+  int cVarSize = 0;
+  int found = 0; //effectively boolean.
+  int matches = 0;
+  while(*iter){
+    cVarSize = tokenLen(*iter);//we must know if the name given exists in enVars.
+    varNameSize = indexOf('=', *iter);
+    if(varNameSize == givenNameSize){//if we find a match in sizes, then check if thyre equal.
+      for(int i = 0; i < givenNameSize; i++){
+	if((*iter)[i] == naVal[1][i]){
+	  matches++;
+	}
+	if(matches == givenNameSize){
+	  found = 1;
+	  matches = 0;
+	}else{
+	  matches = 0;
+	}
+      }
+    }
+    //the new string.
+    if(found){//if found, allocate space accordingly
+     givenValSize = tokenLen(naVal[1]); 
+     //space will be allocated for: varNameSize + = + givenValSize + null.
+     newIter = (char*) calloc(varNameSize + givenValSize + 2, sizeof(char));
+     int j = 0;
+     for(; j<varNameSize; j++){//first copy name
+       newIter[j] = *iter[j];
+     }
+     newIter[j] = '=';//enter the equal sign
+     for(int i = 0; i<givenValSize; i++){//thencopy new value
+
+       newIter[j] = naVal[1][i];
+       j++;
+     }
+    }
+    else{//copy the whole string as it is.
+     newIter = (char*) calloc(cVarSize + 1, sizeof(char));  
+     for(int i = 0; i<cVarSize; i++){
+       newIter[i] = *iter[i];
+     }
+    }
+    newIter++;
+    iter++;
+  }
+  if(!found) fprintf(stderr, "ERROR: Given variable name not found, vars unchanged.\n");
+  freeArray(naVal);
+  return newEnVars;
+}
+
+
 int tokenLen(char *tok){// tool method for measuring size of tokens
     int i = 0;
     while(*tok != 0){

@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
+char** enVars;
 
 void main(int argc, char **argv, char**envp){
 
@@ -13,15 +14,17 @@ void main(int argc, char **argv, char**envp){
   int ex = 0;
   //was used in tokenizer, serves as a tool now.
   char dlt[1] = {' '}; 
+  char* prompt;
+  enVars = envp;//enVars is now the official environment.
   
-
   while(!ex){
 
-    write(1, "$ ", 2);//write prompt to the screen.
+    //set the prompt.
+    prompt = getEnVar("PS1", enVars);
+    fprintf(stderr, "%s", prompt);//write prompt to the screen.
     char* buffer = (char*)calloc(128, sizeof(char));
     int ans = read(0, buffer, 128);
 
-   
     if(ans < 0){//if there is an error in the reading process.
       fprintf(stderr, "%s\n", strerror(errno));
       exit(1);
@@ -43,7 +46,7 @@ void main(int argc, char **argv, char**envp){
     if(ans > 0){	    
     char delimiter = dlt[0];
     char ** parsedToks = myTok(buffer, delimiter);
-    char ** pathVector = getPath(envp);
+    char ** pathVector = getPath(enVars);
     int size1stCom = tokenLen(parsedToks[0]);
     //check for exit key word
     if(size1stCom > 3)    
@@ -70,11 +73,24 @@ void main(int argc, char **argv, char**envp){
 	if(parsedToks[0][1] == 'n')
 	  if(parsedToks[0][2] == 'v')
 	    if(parsedToks[0][3] == 'p'){
-	      print2DArray(envp);//print environmental variables
+	      print2DArray(enVars);//print environmental variables
 	      free(buffer);
 	      continue;
       }
-	    
+
+      if(size1stCom > 5)    
+       if(parsedToks[0][0] == 'e')//for testing purposes only, remove for final submission
+	if(parsedToks[0][1] == 'x')
+	  if(parsedToks[0][2] == 'p')
+	    if(parsedToks[0][3] == 'o')
+	      if(parsedToks[0][3] == 'r')
+		if(parsedToks[0][3] == 't'){
+
+	      enVars = setEnVar(parsedToks[1], enVars);//change variable and update enVars.
+	      free(buffer);
+	      continue;
+      }
+
      //check for changing directory
      if(size1stCom == 2)    
        if(parsedToks[0][0] == 'c')//for testing purposes only, remove for final submission
@@ -94,7 +110,7 @@ void main(int argc, char **argv, char**envp){
       if(!ex){
 	      //print2DArray(parsedToks);//for debugging purposes only.
 
-	analyzer(trimBuff, pathVector, envp);
+	analyzer(trimBuff, pathVector, enVars);
 	//launcher(0, parsedToks, pathVector, envp);
       }
       freeArray(parsedToks);
