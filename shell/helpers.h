@@ -12,4 +12,6 @@ char *rmTailSpaces(char* buffer);
 char* getEnVar(char* varName, char** enVars);
 int indexOf(char needle, char* hayStack);
 char** setEnVar(char* nameAndVal, char** enVars);
+char** createEnVar(char* varName, char* value, char** enVars);
+int enVarExist(char* varName, char** enVars);
 #endif

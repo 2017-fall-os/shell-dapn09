@@ -7,6 +7,59 @@
 #include "helpers.h"
 #include <errno.h>
 
+
+int enVarExist(char* varName, char** enVars){
+  int exists = 0; //boolean
+  char** iter = enVars;
+  char** toks;
+  while(*iter){
+    toks = myTok(*iter, '=');
+    if(strcmp(toks[0], varName) == 0){
+      exists = 1;
+    }
+    freeArray(toks);
+    iter++;
+  }
+  return exists;
+}
+
+
+//create environmental variable.
+char** createEnVar(char* varName, char* value, char** enVars){
+
+  //this method will simply create the new variable at the end of the current array.
+  char** iter = enVars;
+  int curLen = 0;
+  while(*iter){
+    curLen++;
+    iter++;
+  }
+  iter = enVars;
+  char** newVars = (char**) calloc(curLen + 2, sizeof(char*));
+  char** newVarIter = newVars;
+  while(*iter){
+    *newVarIter = *iter;
+    iter++;
+    newVarIter++;
+  }
+  int newLen = tokenLen(varName) + tokenLen(value) + 2;//name plus equal plus value plus null
+  *newVarIter = (char*)calloc(newLen, 1);
+  int i = 0;
+  while(*varName){
+    (*newVarIter)[i] = *varName;
+    i++;
+    varName++;
+  }
+  (*newVarIter)[i] = '=';
+  i++;
+  while(*value){
+    (*newVarIter)[i] = *value;
+    i++;
+    value++;
+  }
+  return newVars;
+}
+
 //get the value of an environmental variable.
 char* getEnVar(char* varName, char** enVars){
 
@@ -46,7 +99,8 @@ char* getEnVar(char* varName, char** enVars){
     value = myTok((*iter) + i + 1, '\"');
       
   }else{
-    fprintf(stderr, "ERROR: environmental variable \"%s\" not found.\n", varName);
+    
+    fprintf(stderr, "Environmental variable \"%s\" not found.\n", varName);
     value = (char**)calloc(2, sizeof(char*));
     *value = (char*)calloc(2, sizeof(char));
     value[0] = "";

@@ -19,6 +19,8 @@ void main(int argc, char **argv, char**envp){
   //enVars = setEnVar("PATH=\"\"", enVars);
   while(!ex){
 
+    if(!enVarExist("PS1", enVars))
+    enVars = createEnVar("PS1", "$ ", enVars);
     //set the prompt.
     prompt = getEnVar("PS1", enVars);
     if(prompt != 0)//only print prompt if exists.
