@@ -16,9 +16,11 @@ void main(int argc, char **argv, char**envp){
   char dlt[1] = {' '}; 
   char* prompt;
   enVars = envp;//enVars is now the official environment.
-  //enVars = setEnVar("PATH=\"\"", enVars);
+  char** comsByNewLine;
+  char** coms;
+  
   while(!ex){
-
+    
     if(!enVarExist("PS1", enVars))//if PS1 does not exist, create it.
     enVars = createEnVar("PS1", "$ ", enVars);
 
@@ -48,9 +50,14 @@ void main(int argc, char **argv, char**envp){
 	  
     
     //to check for the keyword to exit the tokenizer.
-    if(ans > 0){	    
+    if(ans > 0){
+
+    coms = myTok(buffer , '\n');
+      
+    comsByNewLine = coms;//tokenize by '\n'
+    while(*comsByNewLine){//iterate through the statements
     char delimiter = dlt[0];
-    char ** parsedToks = myTok(buffer, delimiter);
+    char ** parsedToks = myTok(*comsByNewLine, delimiter);
     char ** pathVector = getPath(enVars);
     int size1stCom = tokenLen(parsedToks[0]);
     //check for exit key word
@@ -62,42 +69,47 @@ void main(int argc, char **argv, char**envp){
      //check for printing environment vars.    
     if(strcmp(parsedToks[0], "envp") == 0){
         print2DArray(enVars);//print environmental variables
-        free(buffer);
-        continue;
+        //free(*comsByNewLine);//might cause probs
+        break;
     }
 
     if(strcmp(parsedToks[0], "export") == 0){
-	enVars = setEnVar(parsedToks[1], enVars);//change variable and update enVars.
-	free(buffer);
-        continue;
+      
+      	enVars = setEnVar(parsedToks[1], enVars);//change variable and update enVars.
+	
+	//free(*comsByNewLine);//might cause probs
+        break;
     }
 
      //check for changing directory
     if(size1stCom == 2)    
        if(strcmp(parsedToks[0], "cd") == 0){
-	      int res = chdir(parsedToks[1]); //change directory 
+	 int res = chdir(parsedToks[1]); //change directory
+
 	      if(res != 0){
 	      	fprintf(stderr, "%s\n", strerror(errno));
 	      }
-		//char cwd[1024];
-		//fprintf(stderr, "The current dir is: %s\n", getcwd(cwd, sizeof(cwd)));
-	      free(buffer);
-	      continue;
+	//free(*comsByNewLine);//might cause probs
+       break;
        }
 
-      char* trimBuff = rmTailSpaces(buffer);//for debugging
+      char* trimCom = rmTailSpaces(*comsByNewLine);//for debugging
       //if the word entered is not exit then pass the string to myTok.
       if(!ex){
-	      //print2DArray(parsedToks);//for debugging purposes only.
+      //print2DArray(parsedToks);//for debugging purposes only.
 
-	analyzer(trimBuff, pathVector, enVars);
+	analyzer(trimCom, pathVector, enVars);
 	//launcher(0, parsedToks, pathVector, envp);
       }
       freeArray(parsedToks);
-      free(trimBuff);
+      free(trimCom);
+
+      comsByNewLine++;//advance
     }
     
+    }
+    
+    
   }
-  
   
 }

@@ -101,11 +101,11 @@ char **myTok(char *str, char delim){
   while(!endOfInput){
     
     //check current character being read.
-    if((*iter == delim)||(*iter == 0)||(*iter == '\n')){
+    if((*iter == delim)||(*iter == 0)/*||(*iter == '\n')*/){
       current = 0;
 
       //if we have reached the end of the string of characters
-      if((*iter == 0)||(*iter == '\n')){
+      if((*iter == 0)/*||(*iter == '\n')*/){
 	endOfInput = 1;
       }
       
@@ -142,9 +142,9 @@ char **myTok(char *str, char delim){
   
   while(!endOfInput){
     
-    if((*iter == delim)||(*iter == 0)||(*iter == '\n')){
+    if((*iter == delim)||(*iter == 0)/*||(*iter == '\n')*/){
       current = 0;
-      if((*iter == 0)||(*iter == '\n')){
+      if((*iter == 0)/*||(*iter == '\n')*/){
 	endOfInput = 1;
       }
     }else{
@@ -173,7 +173,7 @@ void analyzer(char* origString, char** pathVector, char** envp){
 
   path = pathVector;
   envparams = envp;
-  
+
   //first we need to find number of '&' in original.
   int andCount = ocurrencesOf('&', origString);
   
@@ -197,6 +197,7 @@ void analyzer(char* origString, char** pathVector, char** envp){
     i++;
   }
   //we must free the 2d array "processes" here.
+  
 }
 
 void prepGusintah(char *process){
