@@ -33,3 +33,6 @@ or open with your editor of preference.
  - shell.c: This file contains main, it serves as a wrapper for the functions in myTok.c file.
  - helpers.c: This file contains all the helper functions for managing environmental variables and utilities.
  - helpers.h: This file contains the function signatures of the helper functions.
+ 
+ # NOTE:
+  - The ```cd``` command works perfectly at runtime but somehow fails the script test. Somehow outputs don't seem to match even though the working directory is changed and it is reflected in the environmental variable and by ```pwd``` or ```ls```.
