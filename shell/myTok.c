@@ -254,35 +254,36 @@ void runWithPipes(char* process){
   int i = 0;
   pid_t pid;
   
-  //we will use a larger pipe since its not just one process that will be run.
+  //we use a large pipe and will have each spot of it be allocaed for a child
   int pipes[2*count];
-  for(i = 0; i<count; i++){
-    if(pipe(pipes + i*2) < 0){//if true there was an error creating pipes.
+  for(i = 0; i<count; i++){ 
+    if(pipe(pipes + i*2) < 0){//pipe at avery 2n index
       perror("couldn't pipe\n");
       exit(EXIT_FAILURE);
     }
   }
 
   int j = 0;
-  while(*pipingToks != 0){
-    pid = fork();
-    if(pid == 0){
+  while(*pipingToks != 0){//iterate through the tokenized by pipes array
+    pid = fork();//we only fork once
+    if(pid == 0){//child
 
-      if(*(pipingToks + 1) != 0){
+      if(*(pipingToks + 1) != 0){//check if this is not the last pipe
 
+	//dup the stdout into the next adjacent index
 	if(dup2(pipes[j + 1], 1)<0){
 	  perror("dup2\n");
 	  exit(EXIT_FAILURE);
 	}
       }
-
+      //if this is the first index don't try dup for stdin
       if(j != 0){
-	if(dup2(pipes[j-2], 0) < 0){
+	if(dup2(pipes[j-2], 0) < 0){//since j will increment in 2's
 	  perror("dup2\n");
 	  exit(EXIT_FAILURE);
 	}
       }
-
+      //we close the original fds
       for(i = 0; i < (2*count); i++){
 	close(pipes[i]);
       }
@@ -296,24 +297,26 @@ void runWithPipes(char* process){
 	    free(newName);//free useless construct.
 	    currPath += 1;
       }
-      fprintf(stderr, "%s\n", strerror(errno));//print the error, this stmnt only reached if none worked, program doesnt exist
+      //print the error, this stmnt only reached if none worked
+      fprintf(stderr, "%s\n", strerror(errno));
       exit(1);
     }else
-    if(pid < 0){
+    if(pid < 0){//error in forking
 	perror("error");
 	exit(EXIT_FAILURE);
     }
     pipingToks++;
     j += 2;
   }
+  //we close the fds
   for(i = 0; i < 2*count; i++){
     close(pipes[i]);
   }
-  
+  //wait for each children to be done
   for(i = 0; i<count + 1; i++){
     wait(&stat);
   }
-  }else{
+  }else{//if there is only one command with no pipes
     command = myTok(*pipingToks, ' ');
     launcher(0, command, path, envparams);
   }
